@@ -1,0 +1,286 @@
+
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module MontyLingua</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>MontyLingua</strong></big></big> (version 2.1)</font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:///C|/work/montylingua-2.0/python/montylingua.py">c:\work\montylingua-2.0\python\montylingua.py</a></font></td></tr></table>
+    <p><tt>Module&nbsp;<a href="#MontyLingua">MontyLingua</a><br>
+MONTY&nbsp;LINGUA&nbsp;-&nbsp;An&nbsp;end-to-end&nbsp;natural&nbsp;language&nbsp;processor<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;English,&nbsp;for&nbsp;the&nbsp;Python/Java&nbsp;platform<br>
+&nbsp;<br>
+Author:&nbsp;Hugo&nbsp;Liu&nbsp;&lt;hugo@media.mit.edu&gt;<br>
+Project&nbsp;Page:&nbsp;&lt;<a href="http://web.media.mit.edu/~hugo/montylingua">http://web.media.mit.edu/~hugo/montylingua</a>&gt;<br>
+&nbsp;<br>
+Copyright&nbsp;(c)&nbsp;2002-2004&nbsp;by&nbsp;Hugo&nbsp;Liu,&nbsp;MIT&nbsp;Media&nbsp;Lab<br>
+&nbsp;All&nbsp;rights&nbsp;reserved.<br>
+&nbsp;<br>
+Non-commercial&nbsp;use&nbsp;is&nbsp;free,&nbsp;as&nbsp;provided&nbsp;in&nbsp;the&nbsp;GNU&nbsp;GPL<br>
+By&nbsp;downloading&nbsp;and&nbsp;using&nbsp;<a href="#MontyLingua">MontyLingua</a>,&nbsp;you&nbsp;agree&nbsp;to&nbsp;abide<br>
+by&nbsp;the&nbsp;additional&nbsp;copyright&nbsp;and&nbsp;licensing&nbsp;information&nbsp;in<br>
+&nbsp;"license.txt",&nbsp;included&nbsp;in&nbsp;this&nbsp;distribution<br>
+&nbsp;<br>
+If&nbsp;you&nbsp;use&nbsp;this&nbsp;software&nbsp;in&nbsp;your&nbsp;research,&nbsp;please&nbsp;<br>
+acknowledge&nbsp;<a href="#MontyLingua">MontyLingua</a>&nbsp;and&nbsp;its&nbsp;author,&nbsp;and&nbsp;link&nbsp;to&nbsp;back<br>
+to&nbsp;the&nbsp;project&nbsp;page&nbsp;<a href="http://web.media.mit.edu/~hugo/montylingua">http://web.media.mit.edu/~hugo/montylingua</a>.<br>
+Please&nbsp;cite&nbsp;montylingua&nbsp;in&nbsp;academic&nbsp;publications&nbsp;as:&nbsp;<br>
+&nbsp;<br>
+Liu,&nbsp;Hugo&nbsp;(2004).&nbsp;<a href="#MontyLingua">MontyLingua</a>:&nbsp;An&nbsp;end-to-end&nbsp;natural&nbsp;<br>
+language&nbsp;processor&nbsp;with&nbsp;common&nbsp;sense.&nbsp;Available&nbsp;<br>
+at:&nbsp;web.media.mit.edu/~hugo/montylingua.<br>
+&nbsp;<br>
+************************************************<br>
+DOCUMENTATION&nbsp;OVERVIEW<br>
+&nbsp;<br>
+&nbsp;&nbsp;About&nbsp;<a href="#MontyLingua">MontyLingua</a>:<br>
+&nbsp;&nbsp;-&nbsp;MontyTokenizer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;normalizes&nbsp;punctuation,&nbsp;spacing&nbsp;and<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;contractions,&nbsp;with&nbsp;sensitivity&nbsp;to&nbsp;abbrevs.<br>
+&nbsp;&nbsp;-&nbsp;MontyTagger<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;Part-of-speech&nbsp;tagging&nbsp;using&nbsp;PENN&nbsp;TREEBANK&nbsp;tagset<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;enriched&nbsp;with&nbsp;"Common&nbsp;Sense"&nbsp;from&nbsp;the&nbsp;Open&nbsp;Mind<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Common&nbsp;Sense&nbsp;project<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;exceeds&nbsp;accuracy&nbsp;of&nbsp;Brill94&nbsp;tbl&nbsp;tagger<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using&nbsp;default&nbsp;training&nbsp;files<br>
+&nbsp;&nbsp;-&nbsp;MontyREChunker<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;chunks&nbsp;tagged&nbsp;text&nbsp;into&nbsp;verb,&nbsp;noun,&nbsp;and&nbsp;adjective<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chunks&nbsp;(VX,NX,&nbsp;and&nbsp;AX&nbsp;respectively)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;incredible&nbsp;speed&nbsp;and&nbsp;accuracy&nbsp;improvement&nbsp;over<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;previous&nbsp;MontyChunker<br>
+&nbsp;&nbsp;-&nbsp;MontyExtractor<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;extracts&nbsp;verb-argument&nbsp;structures,&nbsp;phrases,&nbsp;and<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;other&nbsp;semantically&nbsp;valuable&nbsp;information<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;sentences&nbsp;and&nbsp;returns&nbsp;sentences&nbsp;as&nbsp;"digests"<br>
+&nbsp;&nbsp;-&nbsp;MontyLemmatiser<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;part-of-speech&nbsp;sensitive&nbsp;lemmatisation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;strips&nbsp;plurals&nbsp;(geese--&gt;goose)&nbsp;and<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tense&nbsp;(were--&gt;be,&nbsp;had--&gt;have)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;includes&nbsp;regexps&nbsp;from&nbsp;Humphreys&nbsp;and&nbsp;Carroll's<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;morph.lex,&nbsp;and&nbsp;UPENN's&nbsp;XTAG&nbsp;corpus<br>
+&nbsp;&nbsp;-&nbsp;MontyNLGenerator<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;generates&nbsp;summaries<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;generates&nbsp;surface&nbsp;form&nbsp;sentences<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;determines&nbsp;and&nbsp;numbers&nbsp;NPs&nbsp;and&nbsp;tenses&nbsp;verbs<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;accounts&nbsp;for&nbsp;sentence_type<br>
+&nbsp;<br>
+&nbsp;WHERE&nbsp;MUST&nbsp;THE&nbsp;DATAFILES&nbsp;BE?<br>
+&nbsp;-&nbsp;the&nbsp;"datafiles"&nbsp;include&nbsp;all&nbsp;files&nbsp;ending&nbsp;in&nbsp;*.MDF<br>
+&nbsp;-&nbsp;the&nbsp;best&nbsp;solution&nbsp;is&nbsp;to&nbsp;create&nbsp;an&nbsp;environment&nbsp;variable&nbsp;called<br>
+&nbsp;&nbsp;&nbsp;"MONTYLINGUA"&nbsp;and&nbsp;put&nbsp;the&nbsp;path&nbsp;to&nbsp;the&nbsp;datafiles&nbsp;there<br>
+&nbsp;-&nbsp;alternatively,&nbsp;<a href="#MontyLingua">MontyLingua</a>&nbsp;can&nbsp;find&nbsp;the&nbsp;datafiles&nbsp;if&nbsp;they&nbsp;are&nbsp;<br>
+&nbsp;&nbsp;&nbsp;in&nbsp;the&nbsp;operating&nbsp;system&nbsp;"PATH"&nbsp;variable,&nbsp;or&nbsp;in&nbsp;the&nbsp;current<br>
+&nbsp;&nbsp;&nbsp;working&nbsp;directory<br>
+&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;API:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;<a href="#MontyLingua">MontyLingua</a>&nbsp;Python&nbsp;API&nbsp;is&nbsp;<a href="#MontyLingua">MontyLingua</a>.html<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;<a href="#MontyLingua">MontyLingua</a>&nbsp;Java&nbsp;API&nbsp;is&nbsp;JMontyLingua.html<br>
+&nbsp;<br>
+&nbsp;&nbsp;RUNNING:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#MontyLingua">MontyLingua</a>&nbsp;can&nbsp;be&nbsp;called&nbsp;from&nbsp;Python,&nbsp;Java,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;or&nbsp;run&nbsp;at&nbsp;the&nbsp;command&nbsp;line.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;A.&nbsp;From&nbsp;Python,&nbsp;import&nbsp;the&nbsp;<a href="#MontyLingua">MontyLingua</a>.py&nbsp;file<br>
+&nbsp;&nbsp;&nbsp;&nbsp;B.&nbsp;From&nbsp;your&nbsp;Java&nbsp;code:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.&nbsp;make&nbsp;sure&nbsp;"montylingua.jar"&nbsp;is<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in&nbsp;your&nbsp;class&nbsp;path,&nbsp;in&nbsp;addition&nbsp;to<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;associated&nbsp;subdirectories&nbsp;and&nbsp;data&nbsp;files<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.&nbsp;in&nbsp;your&nbsp;code,&nbsp;you&nbsp;need&nbsp;something&nbsp;like:<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;import&nbsp;montylingua.JMontyLingua;&nbsp;//&nbsp;loads&nbsp;namespace<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;class&nbsp;YourClassHere&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;static&nbsp;JMontyLingua&nbsp;j&nbsp;=&nbsp;new&nbsp;JMontyLingua();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;yourFunction(String&nbsp;raw,&nbsp;String&nbsp;toked)&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jisted&nbsp;=&nbsp;j.jist_predicates(raw);&nbsp;//&nbsp;an&nbsp;example&nbsp;function<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.&nbsp;For&nbsp;a&nbsp;good&nbsp;use&nbsp;case&nbsp;example,&nbsp;see&nbsp;Sample.java.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;C.&nbsp;From&nbsp;the&nbsp;command&nbsp;line:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.&nbsp;if&nbsp;you&nbsp;have&nbsp;python&nbsp;installed&nbsp;and&nbsp;in&nbsp;your&nbsp;path:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type&nbsp;"run.bat"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.&nbsp;if&nbsp;you&nbsp;have&nbsp;java&nbsp;installed&nbsp;and&nbsp;in&nbsp;your&nbsp;path:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type&nbsp;"runJavaCommandline.bat"<br>
+&nbsp;<br>
+&nbsp;VERSION&nbsp;HISTORY:<br>
+&nbsp;<br>
+&nbsp;&nbsp;New&nbsp;in&nbsp;version&nbsp;2.1&nbsp;(6&nbsp;Aug&nbsp;2004)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;new&nbsp;MontyNLGenerator&nbsp;component&nbsp;(in&nbsp;Beta&nbsp;phase)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;includes&nbsp;version&nbsp;2.0.1&nbsp;bugfix&nbsp;for&nbsp;problem<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;where&nbsp;java&nbsp;api&nbsp;wasn't&nbsp;being&nbsp;exposed<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;New&nbsp;in&nbsp;version&nbsp;2.0&nbsp;(29&nbsp;Jul&nbsp;2004)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;2.5X&nbsp;speed&nbsp;enhancement&nbsp;for&nbsp;whole&nbsp;system<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2X&nbsp;speed&nbsp;enhancement&nbsp;for&nbsp;tagger&nbsp;component<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;rule-based&nbsp;chunker&nbsp;replaced&nbsp;with&nbsp;much&nbsp;faster<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and&nbsp;more&nbsp;accurate&nbsp;regular&nbsp;expression&nbsp;chunker<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;common&nbsp;sense&nbsp;added&nbsp;to&nbsp;MontyTagger&nbsp;component<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;improves&nbsp;word-level&nbsp;tagger&nbsp;accuracy&nbsp;to&nbsp;97%<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;updated&nbsp;and&nbsp;expanded&nbsp;lexicon&nbsp;for&nbsp;English<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;added&nbsp;a&nbsp;user-customizable&nbsp;lexicon<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CUSTOMLEXICON.MDF<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;improvements&nbsp;to&nbsp;MontyLemmatiser&nbsp;incorporating<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exception&nbsp;cases<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;html&nbsp;documentation&nbsp;added<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;speed&nbsp;optimizations&nbsp;to&nbsp;all&nbsp;code<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;improvements&nbsp;made&nbsp;to&nbsp;semantic&nbsp;extraction<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;added&nbsp;a&nbsp;morphological&nbsp;analyzer&nbsp;component,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MontyMorph<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;expanded&nbsp;Java&nbsp;API<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;New&nbsp;in&nbsp;version&nbsp;1.3.1&nbsp;(11&nbsp;Nov&nbsp;2003)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;mainly&nbsp;bugfixes<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;datafiles&nbsp;can&nbsp;now&nbsp;sit&nbsp;in&nbsp;the&nbsp;current&nbsp;working&nbsp;directory&nbsp;(".")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;or&nbsp;in&nbsp;the&nbsp;path&nbsp;of&nbsp;either&nbsp;of&nbsp;the&nbsp;two&nbsp;environment&nbsp;variables&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"MONTYLINGUA"&nbsp;or&nbsp;"PATH"&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;presence&nbsp;of&nbsp;the&nbsp;'/'&nbsp;token&nbsp;in&nbsp;input&nbsp;won't&nbsp;crash&nbsp;system<br>
+&nbsp;<br>
+&nbsp;&nbsp;New&nbsp;in&nbsp;Version&nbsp;1.3&nbsp;(5&nbsp;Nov&nbsp;2003)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;lisp-style&nbsp;predicate&nbsp;output&nbsp;added<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;Sample.java&nbsp;example&nbsp;file&nbsp;added&nbsp;to&nbsp;illustrate&nbsp;API<br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;New&nbsp;in&nbsp;Version&nbsp;1.2&nbsp;(12&nbsp;Sep&nbsp;2003)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;MontyChunker&nbsp;rules&nbsp;expanded<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;<a href="#MontyLingua">MontyLingua</a>&nbsp;JAVA&nbsp;API&nbsp;added<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;<a href="#MontyLingua">MontyLingua</a>&nbsp;documentation&nbsp;added<br>
+&nbsp;<br>
+&nbsp;&nbsp;New&nbsp;in&nbsp;Version&nbsp;1.1&nbsp;(1&nbsp;Sep&nbsp;2003)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;MontyTagger&nbsp;optimized,&nbsp;2X&nbsp;loading&nbsp;and&nbsp;2.5X&nbsp;tagging&nbsp;speed<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;MontyLemmatiser&nbsp;added&nbsp;to&nbsp;<a href="#MontyLingua">MontyLingua</a>&nbsp;suite<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;MontyChunker&nbsp;added<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;<a href="#MontyLingua">MontyLingua</a>&nbsp;command-line&nbsp;capability&nbsp;added<br>
+&nbsp;<br>
+&nbsp;&nbsp;New&nbsp;in&nbsp;Version&nbsp;1.0&nbsp;(3&nbsp;Aug&nbsp;2003)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;First&nbsp;release<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;MontyTagger&nbsp;(since&nbsp;15&nbsp;Jan&nbsp;2001)&nbsp;added&nbsp;to&nbsp;<a href="#MontyLingua">MontyLingua</a><br>
+&nbsp;<br>
+--please&nbsp;send&nbsp;bugs&nbsp;&amp;&nbsp;suggestions&nbsp;to&nbsp;hugo@media.mit.edu--</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#fffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="MontyExtractor.html">MontyExtractor</a><br>
+<a href="MontyLemmatiser.html">MontyLemmatiser</a><br>
+</td><td width="25%" valign=top><a href="MontyNLGenerator.html">MontyNLGenerator</a><br>
+<a href="MontyREChunker.html">MontyREChunker</a><br>
+</td><td width="25%" valign=top><a href="MontyTagger.html">MontyTagger</a><br>
+<a href="MontyTokenizer.html">MontyTokenizer</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="MontyLingua.html#MontyLingua">MontyLingua</a>
+</font></dt></dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="MontyLingua">class <strong>MontyLingua</strong></a></font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="MontyLingua-__init__"><strong>__init__</strong></a>(self, trace_p<font color="#909090">=0</font>)</dt></dl>
+
+<dl><dt><a name="MontyLingua-chunk_lemmatised"><strong>chunk_lemmatised</strong></a>(self, lemmatised_text)</dt><dd><tt>inputs&nbsp;lemmatised&nbsp;text&nbsp;of&nbsp;the&nbsp;form:<br>
+"He/PRP/he&nbsp;ran/VBD/run"<br>
+and&nbsp;outputs&nbsp;the&nbsp;form:<br>
+"(NX&nbsp;He/PRP/he&nbsp;NX)&nbsp;(VX&nbsp;is/VB/be&nbsp;VX)&nbsp;(NX&nbsp;the/DT/the&nbsp;mailman/NN/mailman&nbsp;NX)"</tt></dd></dl>
+
+<dl><dt><a name="MontyLingua-chunk_tagged"><strong>chunk_tagged</strong></a>(self, tagged_text)</dt><dd><tt>chunks&nbsp;tagged&nbsp;text&nbsp;and&nbsp;outputs&nbsp;the&nbsp;form:<br>
+"(NX&nbsp;He/PRP&nbsp;NX)&nbsp;(VX&nbsp;is/VB&nbsp;VX)&nbsp;(NX&nbsp;the/DT&nbsp;mailman/NN&nbsp;NX)"</tt></dd></dl>
+
+<dl><dt><a name="MontyLingua-extract_info"><strong>extract_info</strong></a>(self, chunked_text)</dt><dd><tt>extracts&nbsp;many&nbsp;useful&nbsp;things&nbsp;from&nbsp;chunked_text<br>
+outputted&nbsp;in&nbsp;a&nbsp;dictionary,&nbsp;which&nbsp;can&nbsp;be&nbsp;printed&nbsp;using&nbsp;<a href="#MontyLingua-pp_info">pp_info</a>()<br>
+its&nbsp;keys&nbsp;and&nbsp;sample&nbsp;values:<br>
+noun_phrases:&nbsp;['the&nbsp;dog','the&nbsp;cat']<br>
+noun_phrases_tagged:&nbsp;['the/DT&nbsp;dog/NN','the/DT&nbsp;cat/NN']<br>
+verb_phrases:&nbsp;['will&nbsp;go&nbsp;quickly','go&nbsp;slowly']<br>
+verb_phrases_tagged:&nbsp;['will/MD&nbsp;go/VB&nbsp;quickly/RB','go/VB&nbsp;slowly/RB']<br>
+prep_phrases:&nbsp;['by&nbsp;the&nbsp;road','by&nbsp;chance']<br>
+prep_phrases_tagged:&nbsp;['by/IN&nbsp;the/DT&nbsp;road/NN','by/IN&nbsp;chance/NN']<br>
+modifiers:&nbsp;['red','best','quickly']<br>
+modifiers_tagged:&nbsp;['red/JJ','best/JJS','quickly/RB']<br>
+verb_arg_structures:&nbsp;['will/MD&nbsp;go/VB&nbsp;quickly/RB','the/DT&nbsp;dog/NN','to/IN&nbsp;the/DT&nbsp;cats/NNS']<br>
+verb_arg_structures_concise:&nbsp;['("go"&nbsp;"dog"&nbsp;"to&nbsp;cat")]</tt></dd></dl>
+
+<dl><dt><a name="MontyLingua-generate_sentence"><strong>generate_sentence</strong></a>(self, vsoo, sentence_type<font color="#909090">='declaration'</font>, tense<font color="#909090">='past'</font>, s_dtnum<font color="#909090">=('', 1)</font>, o1_dtnum<font color="#909090">=('', 1)</font>, o2_dtnum<font color="#909090">=('', 1)</font>, o3_dtnum<font color="#909090">=('', 1)</font>)</dt><dd><tt>inputs&nbsp;verb-subject-object-object&nbsp;tuple<br>
+outputs&nbsp;a&nbsp;generated&nbsp;sentence<br>
+&nbsp;<br>
+valid&nbsp;sentence&nbsp;types:&nbsp;declarative,&nbsp;imperative,&nbsp;(can|may|would|should|could),&nbsp;(who|what|when|where|why|how),&nbsp;question<br>
+valid&nbsp;tenses:&nbsp;past,&nbsp;present,&nbsp;progressive,&nbsp;past_progressive,&nbsp;future,&nbsp;infinitive<br>
+dtnum&nbsp;is&nbsp;a&nbsp;pair&nbsp;of&nbsp;determiner,&nbsp;number&nbsp;e.g.&nbsp;('the',1),('some',2)<br>
+valid&nbsp;determiners&nbsp;=&nbsp;'a','the','some','',etc<br>
+valid&nbsp;numbers&nbsp;=&nbsp;1,2,3</tt></dd></dl>
+
+<dl><dt><a name="MontyLingua-generate_summary"><strong>generate_summary</strong></a>(self, vsoos)</dt><dd><tt>uses&nbsp;MontyNLGenerator&nbsp;to&nbsp;generate&nbsp;a&nbsp;paragraph&nbsp;text&nbsp;summary<br>
+in&nbsp;the&nbsp;past&nbsp;tense<br>
+inputs&nbsp;a&nbsp;flat&nbsp;list&nbsp;of&nbsp;verb-subject-object-object&nbsp;tuples</tt></dd></dl>
+
+<dl><dt><a name="MontyLingua-jist"><strong>jist</strong></a>(self, text)</dt><dd><tt>inputs&nbsp;raw&nbsp;text,&nbsp;outputs&nbsp;a&nbsp;list&nbsp;of&nbsp;<br>
+dictionaries&nbsp;with&nbsp;information&nbsp;digests&nbsp;of&nbsp;<br>
+each&nbsp;sentence</tt></dd></dl>
+
+<dl><dt><a name="MontyLingua-jist_predicates"><strong>jist_predicates</strong></a>(self, text)</dt><dd><tt>similar&nbsp;to&nbsp;<a href="#MontyLingua-jist">jist</a>()&nbsp;except&nbsp;output&nbsp;is&nbsp;simpler<br>
+returns&nbsp;a&nbsp;list&nbsp;(document-level)<br>
+of&nbsp;lists&nbsp;(sentence-level)&nbsp;of&nbsp;<br>
+lisp-style&nbsp;predicate&nbsp;argument&nbsp;structures<br>
+-&nbsp;each&nbsp;structure&nbsp;should&nbsp;look&nbsp;something&nbsp;like&nbsp;this:<br>
+&nbsp;&nbsp;&nbsp;-&nbsp;("verb"&nbsp;"subject"&nbsp;"obj1"&nbsp;"obj2"&nbsp;...&nbsp;)<br>
+-&nbsp;words&nbsp;are&nbsp;all&nbsp;lemmatised,&nbsp;and&nbsp;determiners&nbsp;and<br>
+&nbsp;&nbsp;modals&nbsp;are&nbsp;stripped&nbsp;out<br>
+-&nbsp;obj's&nbsp;can&nbsp;be&nbsp;direct&nbsp;or&nbsp;indirect,&nbsp;but&nbsp;not<br>
+&nbsp;&nbsp;subordinate&nbsp;clauses&nbsp;for&nbsp;now.</tt></dd></dl>
+
+<dl><dt><a name="MontyLingua-lemmatise_tagged"><strong>lemmatise_tagged</strong></a>(self, tagged_text)</dt><dd><tt>lemmatises&nbsp;tagged&nbsp;text&nbsp;and&nbsp;outputs&nbsp;the&nbsp;form:<br>
+'These/DT/These&nbsp;sentences/NNS/sentence&nbsp;were/VBZ/be&nbsp;false/JJ/false'<br>
+(lemma&nbsp;follows&nbsp;the&nbsp;pos&nbsp;tag)</tt></dd></dl>
+
+<dl><dt><a name="MontyLingua-parse_pred_arg"><strong>parse_pred_arg</strong></a>(self, pp)</dt><dd><tt>parses&nbsp;the&nbsp;predicate-argument&nbsp;string<br>
+returned&nbsp;by&nbsp;<a href="#MontyLingua-jist_predicates">jist_predicates</a>(),&nbsp;of&nbsp;the&nbsp;form:<br>
+'("pred&nbsp;name"&nbsp;"arg&nbsp;1"&nbsp;"arg&nbsp;2"&nbsp;etc)'<br>
+and&nbsp;returns&nbsp;them&nbsp;as&nbsp;a&nbsp;list</tt></dd></dl>
+
+<dl><dt><a name="MontyLingua-pp_info"><strong>pp_info</strong></a>(self, extracted_infos)</dt><dd><tt>pretty&nbsp;prints&nbsp;sentence&nbsp;information&nbsp;digests&nbsp;returned&nbsp;by&nbsp;<a href="#MontyLingua-jist">jist</a>()</tt></dd></dl>
+
+<dl><dt><a name="MontyLingua-split_paragraphs"><strong>split_paragraphs</strong></a>(self, text)</dt><dd><tt>inputs&nbsp;a&nbsp;raw&nbsp;text&nbsp;and&nbsp;outputs&nbsp;a&nbsp;list&nbsp;of&nbsp;paragraph&nbsp;segments</tt></dd></dl>
+
+<dl><dt><a name="MontyLingua-split_sentences"><strong>split_sentences</strong></a>(self, text)</dt><dd><tt>input&nbsp;a&nbsp;raw&nbsp;text&nbsp;and&nbsp;outputs&nbsp;a&nbsp;list&nbsp;of&nbsp;sentence&nbsp;segments</tt></dd></dl>
+
+<dl><dt><a name="MontyLingua-strip_tags"><strong>strip_tags</strong></a>(self, tagged_or_chunked_text)</dt><dd><tt>strips&nbsp;part-of-speech&nbsp;and&nbsp;chunk&nbsp;tags&nbsp;from&nbsp;text<br>
+and&nbsp;returns&nbsp;plaintext</tt></dd></dl>
+
+<dl><dt><a name="MontyLingua-tag_tokenized"><strong>tag_tokenized</strong></a>(self, tokenized_text)</dt><dd><tt>takes&nbsp;tokenized&nbsp;text&nbsp;and&nbsp;returns&nbsp;Penn&nbsp;Treebank&nbsp;tagset&nbsp;tagged&nbsp;text:<br>
+i.e.:&nbsp;&nbsp;"This/DT&nbsp;is/VB&nbsp;a/DT&nbsp;sentence/NN".&nbsp;<br>
+more&nbsp;information&nbsp;on&nbsp;the&nbsp;tagset&nbsp;can&nbsp;be&nbsp;found&nbsp;at:<br>
+<a href="http://www.cis.upenn.edu/~treebank/">http://www.cis.upenn.edu/~treebank/</a></tt></dd></dl>
+
+<dl><dt><a name="MontyLingua-tokenize"><strong>tokenize</strong></a>(self, sentence, expand_contractions_p<font color="#909090">=1</font>)</dt><dd><tt>inputs&nbsp;a&nbsp;raw&nbsp;text&nbsp;sentence&nbsp;and&nbsp;outputs&nbsp;that&nbsp;sentence&nbsp;<br>
+with&nbsp;punctuation&nbsp;tokenized,&nbsp;except&nbsp;in&nbsp;the&nbsp;case&nbsp;of&nbsp;abbreviations<br>
+iff&nbsp;expand_contractions_p&nbsp;==&nbsp;1,&nbsp;then&nbsp;contractions&nbsp;will&nbsp;be<br>
+resolved&nbsp;(e.g.&nbsp;"can't"--&gt;"can&nbsp;not")</tt></dd></dl>
+
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>__author__</strong> = 'Hugo Liu &lt;hugo@media.mit.edu&gt;'<br>
+<strong>__version__</strong> = '2.1'</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#7799ee">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Author</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#7799ee"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Hugo&nbsp;Liu&nbsp;&lt;hugo@media.mit.edu&gt;</td></tr></table>
+</body></html>

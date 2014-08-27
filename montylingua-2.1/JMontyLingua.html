@@ -1,0 +1,103 @@
+
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module JMontyLingua</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>JMontyLingua</strong></big></big> (version 2.0)</font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:///C|/work/montylingua-2.0/python/jmontylingua.py">c:\work\montylingua-2.0\python\jmontylingua.py</a></font></td></tr></table>
+    <p><tt>Module&nbsp;<a href="#JMontyLingua">JMontyLingua</a>.py<br>
+&nbsp;<br>
+Java&nbsp;API&nbsp;for&nbsp;MontyLingua,&nbsp;please&nbsp;see&nbsp;MontyLingua&nbsp;module<br>
+for&nbsp;additional&nbsp;documentation&nbsp;and&nbsp;license&nbsp;information.<br>
+&nbsp;<br>
+EXPLANATION&nbsp;OF&nbsp;FUNCTIONS:<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@sig&nbsp;public&nbsp;String&nbsp;jist_predicates(String&nbsp;text)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;returns&nbsp;lisp-style&nbsp;predicate&nbsp;argument&nbsp;structures<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;each&nbsp;structure&nbsp;should&nbsp;look&nbsp;something&nbsp;like&nbsp;this:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;("verb"&nbsp;"subject"&nbsp;"obj1"&nbsp;"obj2"&nbsp;...&nbsp;)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;words&nbsp;are&nbsp;all&nbsp;lemmatised,&nbsp;and&nbsp;determiners&nbsp;and<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;modals&nbsp;are&nbsp;stripped&nbsp;out<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;obj's&nbsp;can&nbsp;be&nbsp;direct&nbsp;or&nbsp;indirect,&nbsp;but&nbsp;not<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;subordinate&nbsp;clauses&nbsp;for&nbsp;now.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;returns&nbsp;one&nbsp;pred-arg&nbsp;per&nbsp;line<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;multiple&nbsp;pred-args&nbsp;are&nbsp;possible&nbsp;for&nbsp;a&nbsp;sentence<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;blank&nbsp;line&nbsp;separates&nbsp;pred-args&nbsp;of&nbsp;each&nbsp;sentence<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@sig&nbsp;public&nbsp;String&nbsp;tag_text(String&nbsp;text)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;takes&nbsp;in&nbsp;raw&nbsp;text.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;tokenizes&nbsp;and&nbsp;POS&nbsp;tags&nbsp;text&nbsp;using&nbsp;Brill94<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tbl-based&nbsp;tagging&nbsp;and&nbsp;common&nbsp;sense<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;uses&nbsp;Penn&nbsp;Treebank&nbsp;tagset<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a href="http://www.cis.upenn.edu/~treebank/">http://www.cis.upenn.edu/~treebank/</a>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;returns&nbsp;one&nbsp;tagged&nbsp;sentence&nbsp;per&nbsp;line<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@sig&nbsp;public&nbsp;String&nbsp;chunk_text(String&nbsp;text)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;takes&nbsp;in&nbsp;raw&nbsp;text.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;tokenizes,&nbsp;POS&nbsp;tags,&nbsp;and&nbsp;chunks&nbsp;tagset<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in&nbsp;adjective&nbsp;chunks,&nbsp;noun&nbsp;chunks,&nbsp;and&nbsp;verb<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chunks&nbsp;(AX,&nbsp;NX,&nbsp;and&nbsp;VX&nbsp;respectively)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;returns&nbsp;one&nbsp;chunked&nbsp;sentence&nbsp;per&nbsp;line<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@sig&nbsp;public&nbsp;String&nbsp;lemmatise_text(String&nbsp;text)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;lemmatises&nbsp;raw&nbsp;text&nbsp;and&nbsp;outputs&nbsp;the&nbsp;form:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'These/DT/These&nbsp;sentences/NNS/sentence&nbsp;were/VBZ/be&nbsp;false/JJ/false'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(lemma&nbsp;follows&nbsp;the&nbsp;pos&nbsp;tag)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;returns&nbsp;one&nbsp;lemmatised&nbsp;sentence&nbsp;per&nbsp;line</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#fffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="MontyLingua.html">MontyLingua</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="JMontyLingua.html#JMontyLingua">JMontyLingua</a>
+</font></dt></dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="JMontyLingua">class <strong>JMontyLingua</strong></a></font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="JMontyLingua-__init__"><strong>__init__</strong></a>(self)</dt><dd><tt>@sig&nbsp;public&nbsp;<a href="#JMontyLingua">JMontyLingua</a>()</tt></dd></dl>
+
+<dl><dt><a name="JMontyLingua-chunk_text"><strong>chunk_text</strong></a>(self, text)</dt><dd><tt>@sig&nbsp;public&nbsp;String&nbsp;<a href="#JMontyLingua-chunk_text">chunk_text</a>(String&nbsp;text)</tt></dd></dl>
+
+<dl><dt><a name="JMontyLingua-jist_predicates"><strong>jist_predicates</strong></a>(self, text)</dt><dd><tt>@sig&nbsp;public&nbsp;String&nbsp;<a href="#JMontyLingua-jist_predicates">jist_predicates</a>(String&nbsp;text)</tt></dd></dl>
+
+<dl><dt><a name="JMontyLingua-lemmatise_text"><strong>lemmatise_text</strong></a>(self, text)</dt><dd><tt>@sig&nbsp;public&nbsp;String&nbsp;<a href="#JMontyLingua-lemmatise_text">lemmatise_text</a>(String&nbsp;text)</tt></dd></dl>
+
+<dl><dt><a name="JMontyLingua-tag_text"><strong>tag_text</strong></a>(self, text)</dt><dd><tt>@sig&nbsp;public&nbsp;String&nbsp;<a href="#JMontyLingua-tag_text">tag_text</a>(String&nbsp;text)</tt></dd></dl>
+
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>__author__</strong> = 'Hugo Liu &lt;hugo@media.mit.edu&gt;'<br>
+<strong>__version__</strong> = '2.0'</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#7799ee">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Author</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#7799ee"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Hugo&nbsp;Liu&nbsp;&lt;hugo@media.mit.edu&gt;</td></tr></table>
+</body></html>

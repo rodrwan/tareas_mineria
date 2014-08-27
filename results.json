@@ -1,0 +1,132 @@
+{
+    "Arts & Humanities": {
+        "Location": 13,
+        "Organization": 12,
+        "Person": 152
+    },
+    "Beauty & Style": {
+        "Location": 10,
+        "Organization": 7,
+        "Person": 10
+    },
+    "Business & Finance": {
+        "Location": 14,
+        "Organization": 19,
+        "Person": 8
+    },
+    "Cars & Transportation": {
+        "Location": 27,
+        "Organization": 32,
+        "Person": 3
+    },
+    "Computer & Internet": {
+        "Location": 3,
+        "Organization": 31,
+        "Person": 0
+    },
+    "Consumer Electronics": {
+        "Location": 7,
+        "Organization": 77,
+        "Person": 6
+    },
+    "Dining Out": {
+        "Location": 19,
+        "Organization": 223,
+        "Person": 15
+    },
+    "Education & Reference": {
+        "Location": 52,
+        "Organization": 26,
+        "Person": 12
+    },
+    "Entertainment & Music": {
+        "Location": 14,
+        "Organization": 12,
+        "Person": 117
+    },
+    "Environment": {
+        "Location": 46,
+        "Organization": 24,
+        "Person": 95
+    },
+    "Family & Relationships": {
+        "Location": 1,
+        "Organization": 4,
+        "Person": 7
+    },
+    "Food & Drink": {
+        "Location": 24,
+        "Organization": 6,
+        "Person": 6
+    },
+    "Games & Recreation": {
+        "Location": 1,
+        "Organization": 14,
+        "Person": 6
+    },
+    "Health": {
+        "Location": 2,
+        "Organization": 8,
+        "Person": 9
+    },
+    "Home & Garden": {
+        "Location": 4,
+        "Organization": 23,
+        "Person": 2
+    },
+    "Local Businesses": {
+        "Location": 52,
+        "Organization": 25,
+        "Person": 1
+    },
+    "News & Events": {
+        "Location": 108,
+        "Organization": 79,
+        "Person": 74
+    },
+    "Pets": {
+        "Location": 0,
+        "Organization": 21,
+        "Person": 6
+    },
+    "Politics & Government": {
+        "Location": 110,
+        "Organization": 68,
+        "Person": 106
+    },
+    "Pregnancy & Parenting": {
+        "Location": 0,
+        "Organization": 0,
+        "Person": 38
+    },
+    "Science & Mathematics": {
+        "Location": 28,
+        "Organization": 4,
+        "Person": 5
+    },
+    "Social Science": {
+        "Location": 17,
+        "Organization": 1,
+        "Person": 4
+    },
+    "Society & Culture": {
+        "Location": 67,
+        "Organization": 12,
+        "Person": 87
+    },
+    "Sports": {
+        "Location": 36,
+        "Organization": 41,
+        "Person": 172
+    },
+    "Travel": {
+        "Location": 66,
+        "Organization": 48,
+        "Person": 5
+    },
+    "Yahoo! Products": {
+        "Location": 8,
+        "Organization": 76,
+        "Person": 10
+    }
+}
