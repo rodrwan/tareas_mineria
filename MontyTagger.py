@@ -159,6 +159,8 @@ if __name__=="__main__":
     if all_pos_p:print 'ALL POS is on!'
 
     if repair_p:print 'REPAIR MODE is on!'
+    print trace_p
+    print all_pos_p
     m=MontyTagger(trace_p)
     print '*************************\n'
     print 'MontyTagger v1.2'
