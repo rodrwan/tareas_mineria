@@ -4,7 +4,7 @@ import sys
 import MontyUtils
 
 class MontyLexicalRuleParser:
-    lexicalrules_filename='LEXICALRULEFILE.MDF'
+    lexicalrules_filename='monty_db/LEXICALRULEFILE.MDF'
     lex_rules=[]
     rule_names=['char','hassuf','deletesuf','addsuf','haspref','deletepref','addpref','goodleft','goodright']
     rule_names +=['fchar','fhassuf','fdeletesuf','faddsuf','fhaspref','fdeletepref','faddpref','fgoodleft','fgoodright']

@@ -6,7 +6,7 @@ import MontyUtils
 
 class MontyNLGenerator:
     xtag_morph_filename="./xtag_morph_english.txt"
-    morph_dict_filename="MONTYMORPH.MDF"
+    morph_dict_filename="monty_db/MONTYMORPH.MDF"
 
     def __init__(self):
         print "Loading Morph Dictionary!"

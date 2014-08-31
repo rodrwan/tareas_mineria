@@ -4,7 +4,7 @@ import sys
 import MontyUtils
 
 class MontyContextualRuleParser:
-    contextualrules_filename='CONTEXTUALRULEFILE.MDF'
+    contextualrules_filename='monty_db/CONTEXTUALRULEFILE.MDF'
     rules=[]
     rule_names=['PREVTAG','NEXTTAG','PREV1OR2TAG','NEXT1OR2TAG','PREV1OR2OR3TAG','NEXT1OR2OR3TAG','SURROUNDTAG','PREVBIGRAM','NEXTBIGRAM','PREV2TAG','NEXT2TAG']
 

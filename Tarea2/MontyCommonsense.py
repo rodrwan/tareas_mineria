@@ -5,7 +5,7 @@ import zlib
 import MontyUtils,MontyLemmatiser,MontyTagger
 
 class MontyCommonsense:
-    cssdb_filename='CSSDB.MDF'
+    cssdb_filename='monty_db/CSSDB.MDF'
 
     def __init__(self,MontyLemmatiser_handle=None,MontyTagger_handle=None):
 

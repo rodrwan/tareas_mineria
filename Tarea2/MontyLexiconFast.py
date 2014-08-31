@@ -13,8 +13,8 @@ else :
 class MontyLexiconFast:
     java_p=MontySettings.MontySettings().JYTHON_P
     auto_load_lexicon=1
-    lexicon_filename='LEXICON.MDF'
-    fast_lexicon_filename='FASTLEXICON'
+    lexicon_filename='monty_db/LEXICON.MDF'
+    fast_lexicon_filename='monty_db/FASTLEXICON'
     packed_words=""
     packed_pos=""
 

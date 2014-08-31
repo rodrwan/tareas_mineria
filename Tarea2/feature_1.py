@@ -3,37 +3,24 @@ from os import listdir
 from os.path import isfile, join
 from BeautifulSoup import BeautifulSoup
 from tabulate import tabulate
-from utils import is_capitalized, full_upper, full_lower, has_root, sin_cat, word_len
+from features import create_main_feature
 
-def clean_word(word):
-  if '/ORGANIZATION' in word:
-    word = word.split('/')[0]
-  elif '/LOCATION' in word:
-    word = word.split('/')[0]
-  elif '/PERSON' in word:
-    word = word.split('/')[0]
-  return word
+def clean_word(word,tokens):
+  is_token = -1
+  for token in tokens:
+    if token in word:
+      word = word.split('/')[0]
+      is_token = 1
+      break
+  return word, is_token
 
-def create_feature(word):
-  tmp_bow = {}
-  tmp_bow['TIENE_RAIZ'] = has_root(word)
-  tmp_bow['FULL_MAYUSCULAS'] = full_upper(word)
-  tmp_bow['FULL_MINUSCULAS'] = full_lower(word)
-  tmp_bow['INICIO__MAYUSCULAS_RESTO_MINUSCULAS'] = is_capitalized(word)
-  tmp_bow['CAT_SINTACTICA_'+ sin_cat(word)] = 1
-  tmp_bow['PALABRA_'+word] = 1
-  tmp_bow['PALABRA_LARGO'] = word_len(word)
-  return tmp_bow
-
-def generate_bow(bag_of_words, count_bow, word):
-  word = clean_word(word)
-  bag_of_words[count_bow] = {}
-  bag_of_words[count_bow]['features'] = {}
-  tmp_bow = create_feature(word)
+def generate_bow(bag_of_words, count_bow, word, tokens):
+  word, token = clean_word(word, tokens)
+  tmp_bow_f1 = create_main_feature(word, token)
   index = 0
   is_there = False
   for idx in bag_of_words:
-    if bag_of_words[idx]['features'] == tmp_bow:
+    if bag_of_words[idx]['features_1'] == tmp_bow_f1:
       is_there = True
       index = idx
       break
@@ -42,12 +29,13 @@ def generate_bow(bag_of_words, count_bow, word):
   if is_there:
     bag_of_words[index]['cuenta'] += 1
   else:
-    bag_of_words[count_bow]['features'] = tmp_bow
+    bag_of_words[count_bow] = {}
+    bag_of_words[count_bow]['features_1'] = {}
+    bag_of_words[count_bow]['features_1'] = tmp_bow_f1
     bag_of_words[count_bow]['cuenta'] = 1
     count_bow += 1
-  del tmp_bow
+  del tmp_bow_f1
   return bag_of_words, count_bow
-
 
 """
   Main part of the program
@@ -61,8 +49,11 @@ if __name__ == "__main__":
     CATEGORIES = json.loads(results)
 
   bag_of_words = {}
+  bag_of_keys = {}
+  key_id = 0
   count_bow = 0
   cat_count = 1
+  tokens = ['/ORGANIZATION', '/LOCATION', '/PERSON']
   for _file in onlyfiles:
     if _file != '.DS_Store':
       if (CATEGORIES[_file][1] == "Done"):
@@ -74,31 +65,37 @@ if __name__ == "__main__":
         content = f.read()
         y = BeautifulSoup(content)
         questions = y.findAll('question')
-        loc, org, per = 0, 0, 0
-        lem_loc, lem_org, lem_per = 0, 0, 0
         for question in questions:
           y = BeautifulSoup(str(question))
           titles = y.findAll('title')
           for title in titles:
             stitle = title.string.split()
             for st in stitle:
-              bag_of_words, count_bow = generate_bow(bag_of_words, count_bow, st)
+              bag_of_words, count_bow = generate_bow(bag_of_words, count_bow, st, tokens)
 
           contents = y.findAll('content')
           for content in contents:
             scontent = content.string.split()
             for sc in scontent:
-              bag_of_words, count_bow = generate_bow(bag_of_words, count_bow, sc)
+              bag_of_words, count_bow = generate_bow(bag_of_words, count_bow, sc, tokens)
 
           answers = y.findAll('answer')
           for answer in answers:
             sanswer = answer.string.split()
             for sa in sanswer:
-              bag_of_words, count_bow = generate_bow(bag_of_words, count_bow, sa)
+              bag_of_words, count_bow = generate_bow(bag_of_words, count_bow, sa, tokens)
+        for bow in bag_of_words:
+          for key in bag_of_words[bow]['features_1'].keys():
+            if key not in bag_of_keys:
+              bag_of_keys[key] = key_id
+              key_id+=1
 
-        with open('category_'+str(cat_count)+'json', 'w') as file_:
+        with open('json_data/'+str(_file)+'-key.json', 'w') as file_:
+          file_.write(json.dumps(bag_of_keys, sort_keys=True, indent=4, separators=(',', ': ')))
+        print "Hash con llaves escrito: "+category
+        with open('json_data/'+str(_file)+'.json', 'w') as file_:
           file_.write(json.dumps(bag_of_words, sort_keys=True, indent=4, separators=(',', ': ')))
-        print "se escribio category_"+str(cat_count)
+        print "se escribio: "+category
         cat_count += 1
         print
 

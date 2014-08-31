@@ -3,9 +3,5 @@ lala = {0: {'feature': {'TIENE_RAIZ': 0, 'PALABRA_LARGO': 4, u'PALABRA_Will': 1,
 
 
 for la in lala:
-  if lala[la]['feature'] == test:
-    print "iguales"
-  else:
-    print "no son iguales"
-
-print set(test).issubset(set(lala))
+  for key in lala[la]['feature'].keys():
+    print key

@@ -7,7 +7,7 @@ import MontyUtils
 class MontyLemmatiser:
     path_prefix=''
     xtag_morph_english_corpus=path_prefix+'xtag_morph_english.txt'
-    exceptions_file="LEMMAEXCEPTIONS.MDF"
+    exceptions_file="monty_db/LEMMAEXCEPTIONS.MDF"
     regular_any=[]
     regular_verb=[]
     regular_noun=[]

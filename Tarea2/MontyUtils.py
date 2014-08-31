@@ -8,9 +8,11 @@ class MontyUtils:
         pass
 
     def find_file(self,filename):
-
-        if filename in os.listdir('.'):
-            return './'+filename
+        # print os.listdir('monty_db/')
+        # print filename
+        # if filename in os.listdir('monty_db/'):
+        #     print filename
+        return './'+filename
 
         if os.environ.has_key('MONTYLINGUA'):
             csplits=os.environ['MONTYLINGUA'].split(';')

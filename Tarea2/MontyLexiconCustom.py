@@ -4,7 +4,7 @@ import zlib
 import MontySettings,MontyUtils
 
 class MontyLexiconCustom:
-    custom_lexicon_filename='CUSTOMLEXICON.MDF'
+    custom_lexicon_filename='monty_db/CUSTOMLEXICON.MDF'
 
     def __init__(self):
         self.word_pos_table={}
