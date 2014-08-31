@@ -5,3 +5,6 @@ tarea1.*
 .DS_Store
 *.pyc
 *.pdf
+SH
+ru.bat
+test*.py
