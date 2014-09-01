@@ -10,3 +10,4 @@ ru.bat
 test*.py
 test.json
 trans_predictions
+pysvmlight
