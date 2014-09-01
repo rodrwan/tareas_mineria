@@ -1,7 +1,7 @@
-import MontyLemmatiser
-import MontyTagger
-p = MontyLemmatiser.MontyLemmatiser()
-m=MontyTagger.MontyTagger(0)
+import MontyLingua.MontyLemmatiser
+import MontyLingua.MontyTagger
+p = MontyLingua.MontyLemmatiser.MontyLemmatiser()
+m = MontyLingua.MontyTagger.MontyTagger(0)
 
 def has_root(word):
   root = map(lambda the_tokenizer_str:p.lemmatise_word(the_tokenizer_str,), word.split())
