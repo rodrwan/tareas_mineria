@@ -6,7 +6,7 @@
 
 ```sh
   $ git clone git@github.com:rodrwan/tareas_mineria.git
-  $ pip install tabulate
+  $ pip install -r requirements.txt
   $ python feature_1.py
 ```
 
@@ -15,3 +15,4 @@ Con esto se crearan los archivos por cada categoría correspondientes a los feat
 
 ### Paquetes usados
 [tabulate](https://pypi.python.org/pypi/tabulate)
+[pip](http://pip.readthedocs.org/en/latest/installing.html)
