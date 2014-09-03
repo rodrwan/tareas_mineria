@@ -87,7 +87,8 @@ class MontyCommonsense:
         info1=' '.join(map(lambda tagged_cleaned:tagged_cleaned[0]+'/'+tagged_cleaned[1],map(lambda tmps:tmps.split('/'),cmp1)))
 
         if info1!=tagged:
-            print "Common sense violated! Correcting..."
+            pass
+            # print "Common sense violated! Correcting..."
         return info1
 
     def unpp(self,pp):

@@ -12,7 +12,8 @@ class MontyUtils:
         # print filename
         # if filename in os.listdir('monty_db/'):
         #     print filename
-        return './'+filename
+        # print os.path.dirname(os.path.abspath(__file__))
+        return os.path.dirname(os.path.abspath(__file__))+'/'+filename
 
         if os.environ.has_key('MONTYLINGUA'):
             csplits=os.environ['MONTYLINGUA'].split(';')
