@@ -14,9 +14,9 @@ def clean_word(word,tokens):
       break
   return word, is_token
 
-def generate_bow(bag_of_words, count_bow, word, tokens):
+def generate_bow(qid, bag_of_words, count_bow, word, tokens, text):
   word, token = clean_word(word, tokens)
-  tmp_bow_f1 = create_main_feature(word, token)
+  tmp_bow_f1 = create_main_feature(qid, word, token, text, tokens)
   index = 0
   is_there = False
   for idx in bag_of_words:
@@ -42,7 +42,7 @@ def generate_bow(bag_of_words, count_bow, word, tokens):
 """
 if __name__ == "__main__":
   DATA_PATH = './data/'
-  onlyfiles = [ f for f in listdir(DATA_PATH) if isfile(join(DATA_PATH, f)) ]
+  onlyfiles = ['396546089-23'] #[ f for f in listdir(DATA_PATH) if isfile(join(DATA_PATH, f)) ]
   CATEGORIES = {}
   with open('categories.json', 'r') as file_:
     results = file_.read()
@@ -54,8 +54,9 @@ if __name__ == "__main__":
   count_bow = 0
   cat_count = 1
   tokens = ['/ORGANIZATION', '/LOCATION', '/PERSON']
+  ignore_files = ['.DS_Store', '.gitignore']
   for _file in onlyfiles:
-    if _file != '.DS_Store':
+    if _file not in ignore_files:
       if (CATEGORIES[_file][1] == "Done"):
         category = CATEGORIES[_file][0]
         print "##################################"
@@ -66,27 +67,28 @@ if __name__ == "__main__":
         y = BeautifulSoup(content)
         questions = y.findAll('question')
         for question in questions:
+          qid = question['id']
           y = BeautifulSoup(str(question))
           titles = y.findAll('title')
           for title in titles:
             stitle = title.string.split()
             for st in stitle:
-              bag_of_words, count_bow = generate_bow(bag_of_words, count_bow, st, tokens)
+              bag_of_words, count_bow = generate_bow(qid, bag_of_words, count_bow, st, tokens, title.string)
 
           contents = y.findAll('content')
           for content in contents:
             scontent = content.string.split()
             for sc in scontent:
-              bag_of_words, count_bow = generate_bow(bag_of_words, count_bow, sc, tokens)
+              bag_of_words, count_bow = generate_bow(qid, bag_of_words, count_bow, sc, tokens, content.string)
 
           answers = y.findAll('answer')
           for answer in answers:
             sanswer = answer.string.split()
             for sa in sanswer:
-              bag_of_words, count_bow = generate_bow(bag_of_words, count_bow, sa, tokens)
+              bag_of_words, count_bow = generate_bow(qid, bag_of_words, count_bow, sa, tokens, answer.string)
         for bow in bag_of_words:
           for key in bag_of_words[bow]['features_1'].keys():
-            if key not in bag_of_keys:
+            if key not in bag_of_keys and 'ES_TOKEN' not in key and 'qid' not in key:
               bag_of_keys[key] = key_id
               key_id+=1
 

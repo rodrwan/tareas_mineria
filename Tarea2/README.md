@@ -19,3 +19,16 @@ Con esto se crearan los archivos por cada categoría correspondientes a los feat
 * [MontyLingua](http://web.media.mit.edu/~hugo/montylingua/)(Modificado)
 * [tabulate](https://pypi.python.org/pypi/tabulate)
 * [pip](http://pip.readthedocs.org/en/latest/installing.html)
+
+### Problemas
+
+1.- Problema con bases de datos de MontyLingua. Causa: Distintas arquitecturas.
+
+Si obtienes el error 'EOFError: not enough items in file' la posible solución está en este [link](http://frdcsa.org/~andrewdo/WebWiki/MontyLingua.html)
+
+#### Environment
+* MacBook Pro Retina
+* Procesador 2.6 GHz Intel Core i5
+* 8 GB 1600 Mhz DDR3
+* Arquitectura x64
+* OS X 10.9.4 (13E28)

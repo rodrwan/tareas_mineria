@@ -37,7 +37,25 @@ def is_capitalized(word):
   else:
     return 0
 
-def sin_cat(word):
+def sin_cat(word, text, entities):
+  for entity in entities:
+    text = text.replace(entity, '')
+  tag = m.tag(text, 0, 0)
+  try:
+    tag = tag[tag.index(word):len(tag)]
+  except:
+    tag = word+'/.'
+  try:
+    tag = tag[0:tag.index(' ')]
+  except:
+    tag = tag[0:]
+  stag =tag.split('/')
+  try:
+    return stag[1]
+  except:
+    return '.'
+
+def sin_cat_by_word(word):
   tag = m.tag(word, 0, 0)
   cat = tag.split('/')[1]
   return cat

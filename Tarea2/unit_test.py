@@ -1,5 +1,5 @@
 import unittest
-from utils import is_capitalized, full_upper, full_lower, has_root
+from utils import is_capitalized, full_upper, full_lower, has_root, sin_cat
 
 class isCapitalized(unittest.TestCase):
     def test_is_capitalized(self):
@@ -44,3 +44,15 @@ class hasRoot(unittest.TestCase):
         word_for_test = "I"
         result = has_root(word_for_test)
         self.assertEqual(0, result)
+
+class sinCat(unittest.TestCase):
+    def test_sin_cat_root(self):
+        word_for_test = "was"
+        text = "I think you have bought the cover story this is propaganda , absolutely opposite the truth , the man was trying to rebuild the western alliance in the threat of rising german aggression ! ."
+        entities = ['/PERSON', '/LOCATION', '/ORGANIZATION']
+        result = sin_cat(word_for_test, text, entities)
+        self.assertEqual('VBD', result)
+
+if __name__ == '__main__':
+    unittest.main()
+

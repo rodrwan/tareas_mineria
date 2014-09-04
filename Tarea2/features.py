@@ -9,7 +9,7 @@ def all_occurences(stext, word):
     index += 1
   return idx_list
 
-def create_side(words, side, tmp_bow):
+def create_side(words, side, tmp_bow, text):
   if side == 'left':
     key = 'IZQUIERDA_'
     key_cat = 'IZQUIERDA_CAT_'
@@ -18,7 +18,7 @@ def create_side(words, side, tmp_bow):
     key_cat = 'DERECHA_CAT_'
   for w in words:
     key += key+str(w)
-    cat = sin_cat(w)
+    cat = sin_cat(w, text)
     key_cat += key_cat+cat
     if w != '':
       tmp_bow[key] = 1
@@ -29,13 +29,16 @@ def create_side(words, side, tmp_bow):
       tmp_bow[key_cat] += 1
   return tmp_bow
 
-def create_main_feature(word, token):
+def create_main_feature(qid, word, token, text, entities):
   tmp_bow = {}
+  tmp_bow['qid'] = qid
   tmp_bow['TIENE_RAIZ'] = has_root(word)
   tmp_bow['FULL_MAYUSCULAS'] = full_upper(word)
   tmp_bow['FULL_MINUSCULAS'] = full_lower(word)
   tmp_bow['INICIO_MAYUSCULAS_RESTO_MINUSCULAS'] = is_capitalized(word)
-  tmp_bow['CAT_SINTACTICA_'+ sin_cat(word)] = 1
+  # print word.encode('utf-8')
+  cat = sin_cat(word, text, entities)
+  tmp_bow['CAT_SINTACTICA_' + cat] = 1
   tmp_bow['PALABRA_'+word] = 1
   tmp_bow['PALABRA_LARGO'] = word_len(word)
   tmp_bow['ES_TOKEN'] = token
@@ -54,13 +57,13 @@ def create_second_feature(index, text):
   words.append(stext[index-3])
   words.append(stext[index-2])
   words.append(stext[index-1])
-  tmp_bow = create_side(words, 'left', tmp_bow)
+  tmp_bow = create_side(words, 'left', tmp_bow, text)
   # right side
   words = []
   words.append(stext[index+3])
   words.append(stext[index+2])
   words.append(stext[index+1])
-  tmp_bow = create_side(words, 'right', tmp_bow)
+  tmp_bow = create_side(words, 'right', tmp_bow, text)
   return tmp_bow
 
 def create_third_feature(word, text):

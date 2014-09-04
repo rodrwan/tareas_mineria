@@ -7,12 +7,10 @@ class MontyUtils:
     def __init__(self):
         pass
 
-    def find_file(self,filename):
+    def find_file(self, filename):
         # print os.listdir('monty_db/')
         # print filename
         # if filename in os.listdir('monty_db/'):
-        #     print filename
-        # print os.path.dirname(os.path.abspath(__file__))
         return os.path.dirname(os.path.abspath(__file__))+'/'+filename
 
         if os.environ.has_key('MONTYLINGUA'):
