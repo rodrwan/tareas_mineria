@@ -22,6 +22,7 @@ Con esto se crearan los archivos por cada categoría correspondientes a los feat
 * [pip](http://pip.readthedocs.org/en/latest/installing.html)
 
 ### Formato de features
+#### Primer grupo de features
 ```json
 {
   "0": {
