@@ -44,21 +44,32 @@ if __name__ == "__main__":
   array_samp = [0, 3, 6, 9, 12, 15, 18, 21, 24, 27]
 
   idx = int(sys.argv[1])
-  split = []
+  test = []
+  train = []
   for i in range(len(questions_by_cat)-1):
     ini = array_samp[idx]
+    fin = ini+3
     for question in questions_by_cat[i]:
-      if i >= ini:
-        split += questions_by_cat[i][question]
-      ini += 1
-      if ini == ini+3:
-        break
+      if i >= ini and i < fin:
+        test += questions_by_cat[i][question]
+      else:
+        train += questions_by_cat[i][question]
+
   # Por cada una de las categorias agregamos esos vectores al split.
   # Luego creamos los folds
-  newpath = FOLD_PATH+'splits/'
-  if not os.path.exists(newpath): os.makedirs(newpath)
-  end_file = open(newpath+'split_'+str(idx+1)+'.txt', 'a')
-  for s in split:
+  newpathtest = FOLD_PATH+'splits/test/'
+
+  if not os.path.exists(newpathtest): os.makedirs(newpathtest)
+  end_file = open(newpathtest+'test_'+str(idx+1)+'.txt', 'a')
+  for s in test:
+    end_file.write(s+'\n')
+  end_file.close()
+
+  newpathtrain = FOLD_PATH+'splits/train/'
+
+  if not os.path.exists(newpathtrain): os.makedirs(newpathtrain)
+  end_file = open(newpathtrain+'train_'+str(idx+1)+'.txt', 'a')
+  for s in train:
     end_file.write(s+'\n')
   end_file.close()
 

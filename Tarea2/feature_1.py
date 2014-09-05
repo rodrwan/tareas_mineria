@@ -67,7 +67,7 @@ if __name__ == "__main__":
     for _file in files:
       bag_of_words = {}
       bag_of_keys = {}
-      key_id = 0
+      key_id = 1
       count_bow = 0
       cat_count = 1
       if (CATEGORIES[_file][1] == "Done"):
