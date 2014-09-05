@@ -14,13 +14,32 @@
 
 Con esto se crearan los archivos por cada categoría correspondientes a los features encontrados en los archivos de las preguntas de Yahoo Answers.
 
-
 ### Paquetes usados
 
 * [BeautifulSoup](http://www.crummy.com/software/BeautifulSoup/bs4/doc/)
 * [MontyLingua](http://web.media.mit.edu/~hugo/montylingua/)(Modificado)
 * [tabulate](https://pypi.python.org/pypi/tabulate)
 * [pip](http://pip.readthedocs.org/en/latest/installing.html)
+### Formato de features
+
+```
+{
+  "0": {
+    "cuenta": 1,
+    "features_1": {
+      "CAT_SINTACTICA_MD": 1,
+      "ES_TOKEN": -1,
+      "FULL_MAYUSCULAS": 0,
+      "FULL_MINUSCULAS": 0,
+      "INICIO_MAYUSCULAS_RESTO_MINUSCULAS": 1,
+      "PALABRA_LARGO": 4,
+      "PALABRA_Will": 1,
+      "TIENE_RAIZ": 0,
+      "qid": "20140618003957AA2mrn7"
+    }
+  }
+}
+```
 
 ### Problemas
 
@@ -34,3 +53,8 @@ Si obtienes el error 'EOFError: not enough items in file' la posible solución e
 * 8 GB 1600 Mhz DDR3
 * Arquitectura x64
 * OS X 10.9.4 (13E28)
+
+#### TODOS
+
+* Falta crear script para generar los folds para poder utilizar SVM
+* Falta crear script para hacer undersampling de tokens
