@@ -63,7 +63,6 @@ if __name__ == "__main__":
       lidx = 0
     else:
       lidx = files.index(lfile)
-
     files = files[lidx:]
     for _file in files:
       bag_of_words = {}
