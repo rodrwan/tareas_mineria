@@ -56,5 +56,6 @@ Si obtienes el error 'EOFError: not enough items in file' la posible solución e
 
 #### TODOS
 
+* Terminar script para la generación de los demás features.
 * Falta crear script para generar los folds para poder utilizar SVM
 * Falta crear script para hacer undersampling de tokens
