@@ -6,6 +6,7 @@
 
 ```sh
   $ git clone git@github.com:rodrwan/tareas_mineria.git
+  $ cd Tarea2
   $ pip install -r requirements.txt
   $ python feature_1.py # creamos las características
   $ python generate_vectors.py # con esto se generan los vectores
