@@ -2,7 +2,10 @@ import sys
 import json
 from os import listdir
 from os.path import isfile, join
-from BeautifulSoup import BeautifulSoup
+try:
+  from BeautifulSoup import BeautifulSoup
+except:
+  from bs4 import BeautifulSoup
 from tabulate import tabulate
 from features import create_main_feature
 from load_config import load_config
@@ -56,7 +59,11 @@ if __name__ == "__main__":
   try:
     files = [f for f in files if f not in ignored_files]
     lfile = read_log()
-    lidx = files.index(lfile)
+    if lfile == '':
+      lidx = 0
+    else:
+      lidx = files.index(lfile)
+
     files = files[lidx:]
     for _file in files:
       bag_of_words = {}
