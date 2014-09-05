@@ -1,9 +1,12 @@
+import sys
 import json
 from os import listdir
 from os.path import isfile, join
 from BeautifulSoup import BeautifulSoup
 from tabulate import tabulate
 from features import create_main_feature
+from load_config import load_config
+from log_system import read_log, write_log, clear_log
 
 def clean_word(word,tokens):
   is_token = -1
@@ -42,21 +45,25 @@ def generate_bow(qid, bag_of_words, count_bow, word, tokens, text):
 """
 if __name__ == "__main__":
   DATA_PATH = './data/'
-  onlyfiles = ['396546089-23'] #[ f for f in listdir(DATA_PATH) if isfile(join(DATA_PATH, f)) ]
-  CATEGORIES = {}
-  with open('categories.json', 'r') as file_:
-    results = file_.read()
-    CATEGORIES = json.loads(results)
+  files = [ f for f in listdir(DATA_PATH) if isfile(join(DATA_PATH, f)) ]
 
-  bag_of_words = {}
-  bag_of_keys = {}
-  key_id = 0
-  count_bow = 0
-  cat_count = 1
-  tokens = ['/ORGANIZATION', '/LOCATION', '/PERSON']
-  ignore_files = ['.DS_Store', '.gitignore']
-  for _file in onlyfiles:
-    if _file not in ignore_files:
+  lc = load_config()
+  lc.read_config()
+  tokens = lc.get_entities()
+  ignored_files = lc.get_ignored()
+  CATEGORIES = lc.get_categories()
+
+  try:
+    files = [f for f in files if f not in ignored_files]
+    lfile = read_log()
+    lidx = files.index(lfile)
+    files = files[lidx:]
+    for _file in files:
+      bag_of_words = {}
+      bag_of_keys = {}
+      key_id = 0
+      count_bow = 0
+      cat_count = 1
       if (CATEGORIES[_file][1] == "Done"):
         category = CATEGORIES[_file][0]
         print "##################################"
@@ -100,6 +107,8 @@ if __name__ == "__main__":
         print "se escribio: "+category
         cat_count += 1
         print
-
-  print "All the jobs was done!"
-  # print " ".join(newString).encode('utf-8')
+    print "All the jobs was done!"
+    clear_log()
+  except (KeyboardInterrupt, SystemExit):
+    print "The system has stopped"
+    write_log(_file)
