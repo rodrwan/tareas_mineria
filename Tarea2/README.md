@@ -20,9 +20,9 @@ Con esto se crearan los archivos por cada categoría correspondientes a los feat
 * [MontyLingua](http://web.media.mit.edu/~hugo/montylingua/)(Modificado)
 * [tabulate](https://pypi.python.org/pypi/tabulate)
 * [pip](http://pip.readthedocs.org/en/latest/installing.html)
-### Formato de features
 
-```
+### Formato de features
+```json
 {
   "0": {
     "cuenta": 1,
