@@ -8,6 +8,7 @@
 ```
 |-- data # aquí van los archivos con las consultas
 |-- folds
+|   |-- models # modelos generados de los datos de entrenamiento
 |   |-- results # resultados SVM.
 |   |-- splits
 |       |-- test # fold para testeo.
