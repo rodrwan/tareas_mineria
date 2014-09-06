@@ -46,21 +46,24 @@ if __name__ == "__main__":
   idx = int(sys.argv[1])
   test = []
   train = []
-  for i in range(len(questions_by_cat)-1):
+
+  for qcat in range(len(questions_by_cat)):
     ini = array_samp[idx]
     fin = ini+3
-    for question in questions_by_cat[i]:
+    i = 0
+    for question in questions_by_cat[qcat]:
       if i >= ini and i < fin:
-        test += questions_by_cat[i][question]
+        test += questions_by_cat[qcat][question]
       else:
-        train += questions_by_cat[i][question]
+        train += questions_by_cat[qcat][question]
+      i+=1
 
   # Por cada una de las categorias agregamos esos vectores al split.
   # Luego creamos los folds
   newpathtest = FOLD_PATH+'splits/test/'
 
   if not os.path.exists(newpathtest): os.makedirs(newpathtest)
-  end_file = open(newpathtest+'test_'+str(idx+1)+'.txt', 'a')
+  end_file = open(newpathtest+'test_'+str(idx+1), 'a')
   for s in test:
     end_file.write(s+'\n')
   end_file.close()
@@ -68,7 +71,7 @@ if __name__ == "__main__":
   newpathtrain = FOLD_PATH+'splits/train/'
 
   if not os.path.exists(newpathtrain): os.makedirs(newpathtrain)
-  end_file = open(newpathtrain+'train_'+str(idx+1)+'.txt', 'a')
+  end_file = open(newpathtrain+'train_'+str(idx+1), 'a')
   for s in train:
     end_file.write(s+'\n')
   end_file.close()

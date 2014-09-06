@@ -2,8 +2,21 @@
 ## Prelimares
 
 1.- Se deben agregar los archivos correspondientes a la carpeta data, donde estarán alojados los archivos con los datos.
-2.- Se debe modificar el archivo config.json con los nombres de los distintos archivos.
 
+2.- Se debe modificar el archivo config.json con los nombres de los distintos archivos.
+## Esquema de directorios
+```
+|-- data # aquí van los archivos con las consultas
+|-- folds
+|   |-- results # resultados SVM.
+|   |-- splits
+|       |-- test # fold para testeo.
+|       |-- train # fold para entrenar.
+|-- json_data
+|-- logs # logs para ejecución del script que crea los features.
+|-- svm_light
+|-- vectors # se guardan los vectores que serán utilizados por SVM.
+```
 ## Install
 
 **NOTE:** se debe tener instalado Python 2.7 y [pip](http://pip.readthedocs.org/en/latest/installing.html) para poder instalar las demás dependencias.

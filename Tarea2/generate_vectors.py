@@ -15,6 +15,7 @@ if __name__ == "__main__":
   tokens = lc.get_entities()
   ignored_files = lc.get_ignored()
   CATEGORIES = lc.get_categories()
+
   files = [f for f in files if f not in ignored_files and '-key' not in f]
   for _file in files:
     keys = {}
@@ -30,13 +31,20 @@ if __name__ == "__main__":
     for feat_id in features:
       feature_1 = features[feat_id]['features_1']
       vector = str(feature_1['ES_TOKEN']) + ' '
+      keys_feat = {}
       for feat_key in feature_1:
         if 'ES_TOKEN' not in feat_key and 'qid' not in feat_key:
-          vector += str(keys[feat_key]) + ':' + str(feature_1[feat_key]) + ' '
+          keys_feat[keys[feat_key]] = feature_1[feat_key]
         if 'PALABRA_' in feat_key:
           word = feat_key.split('PALABRA_')[1]
         if 'CAT_SINTACTICA_' in feat_key:
           cat = feat_key.split('CAT_SINTACTICA_')[1]
-      vector += '# ' + feature_1['qid'].encode('utf-8') + ' ' + word.encode('utf-8') + ' ' + cat.encode('utf-8') + '\n'
+      # print keys_feat
+      keylist = keys_feat.keys()
+      keylist.sort()
+      for key in keylist:
+          vector += str(key) + ':' + str(keys_feat[key]) + ' '
+
+      vector += '# ' + feature_1['qid'].encode('utf-8') + ' ' + word.encode('utf-8') + ' ' + cat.encode('utf-8') + ' ' + CATEGORIES[sfile[0]][0].encode('utf-8') + '\n'
       end_file.write(vector)
     end_file.close()
