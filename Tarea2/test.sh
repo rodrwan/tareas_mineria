@@ -1,12 +1,12 @@
 #!/bin/sh
 
-svm_light/svm_classify -v 0 folds/splits/test/test_1 folds/models/model_1 folds/results/result_1
-svm_light/svm_classify -v 0 folds/splits/test/test_2 folds/models/model_2 folds/results/result_2
-svm_light/svm_classify -v 0 folds/splits/test/test_3 folds/models/model_3 folds/results/result_3
-svm_light/svm_classify -v 0 folds/splits/test/test_4 folds/models/model_4 folds/results/result_4
-svm_light/svm_classify -v 0 folds/splits/test/test_5 folds/models/model_5 folds/results/result_5
-svm_light/svm_classify -v 0 folds/splits/test/test_6 folds/models/model_6 folds/results/result_6
-svm_light/svm_classify -v 0 folds/splits/test/test_7 folds/models/model_7 folds/results/result_7
-svm_light/svm_classify -v 0 folds/splits/test/test_8 folds/models/model_8 folds/results/result_8
-svm_light/svm_classify -v 0 folds/splits/test/test_9 folds/models/model_9 folds/results/result_9
+svm_light/svm_classify -v 0 folds/splits/test/test_01 folds/models/model_01 folds/results/result_01
+svm_light/svm_classify -v 0 folds/splits/test/test_02 folds/models/model_02 folds/results/result_02
+svm_light/svm_classify -v 0 folds/splits/test/test_03 folds/models/model_03 folds/results/result_03
+svm_light/svm_classify -v 0 folds/splits/test/test_04 folds/models/model_04 folds/results/result_04
+svm_light/svm_classify -v 0 folds/splits/test/test_05 folds/models/model_05 folds/results/result_05
+svm_light/svm_classify -v 0 folds/splits/test/test_06 folds/models/model_06 folds/results/result_06
+svm_light/svm_classify -v 0 folds/splits/test/test_07 folds/models/model_07 folds/results/result_07
+svm_light/svm_classify -v 0 folds/splits/test/test_08 folds/models/model_08 folds/results/result_08
+svm_light/svm_classify -v 0 folds/splits/test/test_09 folds/models/model_09 folds/results/result_09
 svm_light/svm_classify -v 0 folds/splits/test/test_10 folds/models/model_10 folds/results/result_10

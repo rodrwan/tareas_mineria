@@ -1,12 +1,12 @@
 #!/bin/sh
 
-svm_light/svm_learn -v 0 -c 1.0 folds/splits/train/train_1 folds/models/model_1
-svm_light/svm_learn -v 0 -c 1.0 folds/splits/train/train_2 folds/models/model_2
-svm_light/svm_learn -v 0 -c 1.0 folds/splits/train/train_3 folds/models/model_3
-svm_light/svm_learn -v 0 -c 1.0 folds/splits/train/train_4 folds/models/model_4
-svm_light/svm_learn -v 0 -c 1.0 folds/splits/train/train_5 folds/models/model_5
-svm_light/svm_learn -v 0 -c 1.0 folds/splits/train/train_6 folds/models/model_6
-svm_light/svm_learn -v 0 -c 1.0 folds/splits/train/train_7 folds/models/model_7
-svm_light/svm_learn -v 0 -c 1.0 folds/splits/train/train_8 folds/models/model_8
-svm_light/svm_learn -v 0 -c 1.0 folds/splits/train/train_9 folds/models/model_9
+svm_light/svm_learn -v 0 -c 1.0 folds/splits/train/train_01 folds/models/model_01
+svm_light/svm_learn -v 0 -c 1.0 folds/splits/train/train_02 folds/models/model_02
+svm_light/svm_learn -v 0 -c 1.0 folds/splits/train/train_03 folds/models/model_03
+svm_light/svm_learn -v 0 -c 1.0 folds/splits/train/train_04 folds/models/model_04
+svm_light/svm_learn -v 0 -c 1.0 folds/splits/train/train_05 folds/models/model_05
+svm_light/svm_learn -v 0 -c 1.0 folds/splits/train/train_06 folds/models/model_06
+svm_light/svm_learn -v 0 -c 1.0 folds/splits/train/train_07 folds/models/model_07
+svm_light/svm_learn -v 0 -c 1.0 folds/splits/train/train_08 folds/models/model_08
+svm_light/svm_learn -v 0 -c 1.0 folds/splits/train/train_09 folds/models/model_09
 svm_light/svm_learn -v 0 -c 1.0 folds/splits/train/train_10 folds/models/model_10

@@ -61,9 +61,11 @@ if __name__ == "__main__":
   # Por cada una de las categorias agregamos esos vectores al split.
   # Luego creamos los folds
   newpathtest = FOLD_PATH+'splits/test/'
+  if idx+1 < 10:
+    idx = '0'+str(idx+1)
 
   if not os.path.exists(newpathtest): os.makedirs(newpathtest)
-  end_file = open(newpathtest+'test_'+str(idx+1), 'a')
+  end_file = open(newpathtest+'test_'+str(idx), 'a')
   for s in test:
     end_file.write(s+'\n')
   end_file.close()
@@ -71,7 +73,8 @@ if __name__ == "__main__":
   newpathtrain = FOLD_PATH+'splits/train/'
 
   if not os.path.exists(newpathtrain): os.makedirs(newpathtrain)
-  end_file = open(newpathtrain+'train_'+str(idx+1), 'a')
+
+  end_file = open(newpathtrain+'train_'+str(idx), 'a')
   for s in train:
     end_file.write(s+'\n')
   end_file.close()
