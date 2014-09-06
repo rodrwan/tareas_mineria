@@ -1,9 +1,9 @@
 # Script para tarea 2 de Minería de datos
 ## Prelimares
 
-1.- Se deben agregar los archivos correspondientes a la carpeta data, donde estarán alojados los archivos con los datos.
+1.- Se deben agregar los archivos correspondientes a la carpeta **data**, donde estarán alojados los archivos con la información para la tarea.
 
-2.- Se debe modificar el archivo config.json con los nombres de los distintos archivos.
+2.- Se debe modificar el archivo config.json con los nombres de los distintos archivos. (Archivos asignados a cada alumno)
 ## Esquema de directorios
 ```
 |-- data # aquí van los archivos con las consultas
