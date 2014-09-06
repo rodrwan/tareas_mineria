@@ -27,6 +27,7 @@
   $ pip install -r requirements.txt
   $ python feature_1.py # creamos las características
   $ python generate_vectors.py # con esto se generan los vectores
+  $ python make_folds.py # con esto se generan los folds para el cross validation
 ```
 
 Con esto se crearan los archivos por cada categoría correspondientes a los features encontrados en los archivos de las preguntas de Yahoo Answers.
