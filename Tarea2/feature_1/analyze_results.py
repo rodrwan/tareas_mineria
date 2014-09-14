@@ -6,7 +6,7 @@ import random
 import os
 import sys
 from tabulate import tabulate
-
+from sklearn import metrics
 
 if __name__ == "__main__":
   VECTOR_PATH = './folds/splits/test/'
@@ -53,67 +53,65 @@ if __name__ == "__main__":
     if float(classes_test[idx][0]) > 0 and float(classes_result[idx][0]) >= 0:
       accuracies[classes_test[idx][1]][0] += 1
 
-  # print json.dumps(accuracies, sort_keys=True, indent=4, separators=(',', ': '))
-
-  print "Matriz de confusion: "
-  tp = 0
-  fp = 0
-  fn = 0
-  tn = 0
   samples = {}
-  y_test = []
-  probas_ = []
+  y_test_global = []
+  probas_global = []
+  probas_global_tmp = []
+  y_predicted = []
   # 1 entity
   # -1 token
   m_conf = {}
   for idx  in range(len(classes_test)):
-    probas_.append(float(classes_result[idx][0]))
+    probas_global.append(float(classes_result[idx][0]))
+    if (float(classes_result[idx][0]) > 0):
+      probas_global_tmp.append(1)
+    else:
+      probas_global_tmp.append(-1)
     if classes_test[idx][1] not in m_conf:
       m_conf[classes_test[idx][1]] = {
-        'tp': 0,
-        'fp': 0,
-        'fn': 0,
-        'tn': 0,
         'real_entity': 0,
         'real_token': 0,
         'total_examples': 0,
+        'y_test': [],
+        'y_pred': []
       }
 
     if int(classes_test[idx][0]) == 1:
       m_conf[classes_test[idx][1]]['real_entity'] += 1
-      y_test.append(1)
+      y_test_global.append(1)
     else:
       m_conf[classes_test[idx][1]]['real_token'] += 1
-      y_test.append(-1)
-    # result is 1 and test is 1
-    if float(classes_result[idx][0]) > 0 and int(classes_test[idx][0]) == 1:
-      m_conf[classes_test[idx][1]]['tp'] += 1
-    # result is 1 but test is -1
-    if float(classes_result[idx][0]) > 0 and int(classes_test[idx][0]) == -1:
-      m_conf[classes_test[idx][1]]['fp'] += 1
-    # result is -1 but test is 1
-    if float(classes_result[idx][0]) < 0 and int(classes_test[idx][0]) == 1:
-      m_conf[classes_test[idx][1]]['fn'] += 1
-    # result is -1 but test is -1
-    if float(classes_result[idx][0]) < 0 and int(classes_test[idx][0]) == -1:
-      m_conf[classes_test[idx][1]]['tn'] += 1
+      y_test_global.append(-1)
 
+    if float(classes_result[idx][0]) < 0:
+      m_conf[classes_test[idx][1]]['y_pred'].append(-1)
+    else:
+      m_conf[classes_test[idx][1]]['y_pred'].append(1)
+    m_conf[classes_test[idx][1]]['y_test'].append(int(classes_test[idx][0]))
   for mc in m_conf:
+    y_test = m_conf[mc]['y_test']
+    y_predicted = m_conf[mc]['y_pred']
+    print "##########################################################################"
     print "Categoria " + mc.replace('_', ' ') + ":"
+    print "##########################################################################"
+    print
+    print metrics.classification_report(y_test, y_predicted)
+    print
+    print "Confusion matrix"
+    conf_mat = metrics.confusion_matrix(y_test, y_predicted)
     table = [
-      ["Entity pred", m_conf[mc]['tp'], m_conf[mc]['fp']],
-      ["Token pred", m_conf[mc]['fn'], m_conf[mc]['tn']]
+      ["Entity pred", conf_mat[1][1], conf_mat[1][0]],
+      ["Token pred", conf_mat[0][1], conf_mat[0][0]]
     ]
     print tabulate(table, headers=["","Entity real", "Token real"], tablefmt="grid")
-    print "Accuracy " + mc.replace('_', ' ') + ': '
-    print "Entities: {:.2%}".format(float(m_conf[mc]['tp'])/float(m_conf[mc]['real_entity']))
-    print "Token: {:.2%}".format(float(m_conf[mc]['tn'])/float(m_conf[mc]['real_token']))
+    print
     print
 
+  print metrics.classification_report(y_test_global, probas_global_tmp)
   import pylab as pl
   from sklearn.metrics import roc_curve, auc
   # Compute ROC curve and area the curve
-  fpr, tpr, thresholds = roc_curve(y_test, probas_)
+  fpr, tpr, thresholds = roc_curve(y_test_global, probas_global)
   roc_auc = auc(fpr, tpr)
   print "Area under the ROC curve : %f" % roc_auc
   # Plot ROC curve

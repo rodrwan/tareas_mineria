@@ -6,7 +6,7 @@ import random
 import os
 import sys
 from tabulate import tabulate
-
+from sklearn import metrics
 
 if __name__ == "__main__":
   VECTOR_PATH = ['./folds/splits/test/test_01']
@@ -31,7 +31,7 @@ if __name__ == "__main__":
       content = content.split('\n')
       for samples in content[:-1]:
         samp = samples.split()
-        classes_test.append((samp[0], samp[-1]))
+        classes_test.append((samp[0], samp[-2]))
 
   classes_result = []
   for fr in RESULT_PATH:
@@ -49,63 +49,73 @@ if __name__ == "__main__":
       accuracies[classes_test[idx][1]] = [0, 0]
     else:
       accuracies[classes_test[idx][1]][1] += 1
-    # print classes_test[idx][0], classes_result[idx][0]
+
     if float(classes_test[idx][0]) > 0 and float(classes_result[idx][0]) >= 0:
       accuracies[classes_test[idx][1]][0] += 1
 
   # print json.dumps(accuracies, sort_keys=True, indent=4, separators=(',', ': '))
-
-  print "Accuracy por categoria: "
-  for category in accuracies:
-    num = float(accuracies[category][0])
-    den = float(accuracies[category][1])
-    acc = float(num/den)*100
-    print category + ': ' + str(acc)
-
-  print
-  print "Matriz de confusion: "
-  tp = 0
-  fp = 0
-  fn = 0
-  tn = 0
   samples = {}
+  y_test_global = []
+  probas_global = []
+  y_predicted = []
   # 1 entity
   # -1 token
   m_conf = {}
   for idx  in range(len(classes_test)):
+    probas_global.append(float(classes_result[idx][0]))
     if classes_test[idx][1] not in m_conf:
       m_conf[classes_test[idx][1]] = {
-        'tp': 0,
-        'fp': 0,
-        'fn': 0,
-        'tn': 0
+        'real_entity': 0,
+        'real_token': 0,
+        'total_examples': 0,
+        'y_test': [],
+        'y_pred': []
       }
 
-    # result is 1 and test is 1
-    if float(classes_result[idx][0]) > 0 and int(classes_test[idx][0]) == 1:
-      m_conf[classes_test[idx][1]]['tp'] += 1
-    # result is 1 but test is -1
-    if float(classes_result[idx][0]) > 0 and int(classes_test[idx][0]) == -1:
-      m_conf[classes_test[idx][1]]['fp'] += 1
-    # result is -1 but test is 1
-    if float(classes_result[idx][0]) < 0 and int(classes_test[idx][0]) == 1:
-      m_conf[classes_test[idx][1]]['fn'] += 1
-    # result is -1 but test is -1
-    if float(classes_result[idx][0]) < 0 and int(classes_test[idx][0]) == -1:
-      m_conf[classes_test[idx][1]]['tn'] += 1
+    if int(classes_test[idx][0]) == 1:
+      m_conf[classes_test[idx][1]]['real_entity'] += 1
+      y_test_global.append(1)
+    else:
+      m_conf[classes_test[idx][1]]['real_token'] += 1
+      y_test_global.append(-1)
 
+    if float(classes_result[idx][0]) < 0:
+      m_conf[classes_test[idx][1]]['y_pred'].append(-1)
+    else:
+      m_conf[classes_test[idx][1]]['y_pred'].append(1)
+    m_conf[classes_test[idx][1]]['y_test'].append(int(classes_test[idx][0]))
   for mc in m_conf:
+    y_test = m_conf[mc]['y_test']
+    y_predicted = m_conf[mc]['y_pred']
+    print "##########################################################################"
     print "Categoria " + mc.replace('_', ' ') + ":"
+    print "##########################################################################"
+    print
+    print metrics.classification_report(y_test, y_predicted)
+    print
+    print "Confusion matrix"
+    conf_mat = metrics.confusion_matrix(y_test, y_predicted)
     table = [
-      ["Entity pred", m_conf[mc]['tp'], m_conf[mc]['fp']],
-      ["Token pred", m_conf[mc]['fn'], m_conf[mc]['tn']]
+      ["Entity pred", conf_mat[1][1], conf_mat[1][0]],
+      ["Token pred", conf_mat[0][1], conf_mat[0][0]]
     ]
     print tabulate(table, headers=["","Entity real", "Token real"], tablefmt="grid")
     print
-
-
-
-
-
-
-
+    print
+  import pylab as pl
+  from sklearn.metrics import roc_curve, auc
+  # Compute ROC curve and area the curve
+  fpr, tpr, thresholds = roc_curve(y_test_global, probas_global)
+  roc_auc = auc(fpr, tpr)
+  print "Area under the ROC curve : %f" % roc_auc
+  # Plot ROC curve
+  pl.clf()
+  pl.plot(fpr, tpr, label='ROC curve (area = %0.2f)' % roc_auc)
+  pl.plot([0, 1], [0, 1], 'k--')
+  pl.xlim([0.0, 1.0])
+  pl.ylim([0.0, 1.0])
+  pl.xlabel('False Positive Rate')
+  pl.ylabel('True Positive Rate')
+  pl.title('ROC para primer grupo de features')
+  pl.legend(loc="lower right")
+  pl.show()
