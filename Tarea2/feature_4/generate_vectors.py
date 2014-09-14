@@ -36,17 +36,11 @@ if __name__ == "__main__":
         es_token = 'ES_TOKEN' not in feat_key
         es_qid = 'qid' not in feat_key
         es_entity = 'ENTITY' not in feat_key
-        es_palabra = 'PALABRA' not in feat_key
+        es_palabra = 'PALABRA_ANTERIOR' not in feat_key
         if es_token and es_qid and es_entity and es_palabra:
           keys_feat[keys[feat_key]] = feature_1[feat_key]
-        if 'IZQUIERDA_CAT_' in feat_key:
-          cat = feat_key.split('IZQUIERDA_CAT_')[1]
-        elif 'DERECHA_CAT_' in feat_key:
-          cat = feat_key.split('DERECHA_CAT_')[1]
-        elif 'IZQUIERDA_' in feat_key:
-          word = feat_key.split('IZQUIERDA_')[1]
-        elif 'DERECHA_' in feat_key:
-          word = feat_key.split('DERECHA_')[1]
+        if 'CLASE_PALABRA_PREVIA' in feat_key:
+          word = feature_1['PALABRA_ANTERIOR']
 
       # print keys_feat
       keylist = keys_feat.keys()
@@ -54,6 +48,6 @@ if __name__ == "__main__":
       for key in keylist:
           vector += str(key) + ':' + str(keys_feat[key]) + ' '
 
-      vector += '# ' + feature_1['qid'].encode('utf-8') + ' ' + word.encode('utf-8') + ' ' + cat.encode('utf-8') + ' ' + CATEGORIES[sfile[0]][0].replace(' ', '_').encode('utf-8') + '\n'
+      vector += '# ' + feature_1['qid'].encode('utf-8') + ' ' + word.encode('utf-8') + ' ' + CATEGORIES[sfile[0]][0].replace(' ', '_').encode('utf-8') + '\n'
       end_file.write(vector)
     end_file.close()

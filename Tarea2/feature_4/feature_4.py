@@ -9,8 +9,6 @@ except:
 from tabulate import tabulate
 from load_config import load_config
 from log_system import read_log, write_log, clear_log
-import MontyLingua.MontyTagger
-m = MontyLingua.MontyTagger.MontyTagger(0)
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -29,22 +27,30 @@ def clean_word(stext, entities):
 
 def clean_text(text, entities):
   for entity in entities:
-    text = text.replace(entity, '').replace(' -RRB- ', ' ').replace(' -LRB- ', ' ').replace('\/', '#').replace(' -RRB-', '').replace('-LRB- ', '')
+    text = text.replace(' -RRB- ', ' ').replace(' -LRB- ', ' ').replace('\/', '#').replace(' -RRB-', '').replace('-LRB- ', '')
   return text
 
-def generate_bow(qid, bag_of_words, count_bow, word, tokens, text, word_id, tags, ori_text):
-  for stext in ori_text.split():
-    sword, is_token, _entity = clean_word(stext, entities)
-    if word == sword:
-      break
-  tmp_bow_f1 = create_fourth_feature(qid, word, text, tokens, word_id, tags, is_token)
-  tmp_bow_f1['ENTITY'] = _entity
-  # print json.dumps(tmp_bow_f1, sort_keys=True, indent=4, separators=(',', ': '))
+def generate_bow(qid, bag_of_words, count_bow, word, entities, text, word_id):
+  stext = text.split()
+  prev_word = stext[word_id-1]
+  prev_word, is_token, _entity = clean_word(prev_word, entities)
+  if (is_token == 1):
+    clase = 1
+  else:
+    clase = 0
+
+  tmp_bow = {}
+  tmp_bow['qid'] = qid
+  tmp_bow['PALABRA_ANTERIOR'] = prev_word
+  tmp_bow['ENTITY'] = _entity
+  tmp_bow['CLASE_PALABRA_PREVIA'] = clase
+  tmp_bow['ES_TOKEN'] = is_token
+  # print json.dumps(tmp_bow, sort_keys=True, indent=4, separators=(',', ': '))
   # sys.exit()
   index = 0
   is_there = False
   for idx in bag_of_words:
-    if bag_of_words[idx]['features'] == tmp_bow_f1:
+    if bag_of_words[idx]['features'] == tmp_bow:
       is_there = True
       index = idx
       break
@@ -55,10 +61,10 @@ def generate_bow(qid, bag_of_words, count_bow, word, tokens, text, word_id, tags
   else:
     bag_of_words[count_bow] = {}
     bag_of_words[count_bow]['features'] = {}
-    bag_of_words[count_bow]['features'] = tmp_bow_f1
+    bag_of_words[count_bow]['features'] = tmp_bow
     bag_of_words[count_bow]['cuenta'] = 1
     count_bow += 1
-  del tmp_bow_f1
+  del tmp_bow
   return bag_of_words, count_bow
 
 """
@@ -105,53 +111,38 @@ if __name__ == "__main__":
           for title in titles:
             if title.string:
               text = clean_text(title.string, entities)
-              stitle = text.split()
               word_id = 0
               text = "@#@# " + text + " @#@#".encode('utf-8')
-              tags = m.tag_tokenized(text, 0, 0)
-              stop = len(stitle)
+              stitle = text.split()
               for st in stitle:
-                bag_of_words, count_bow = generate_bow(qid, bag_of_words, count_bow, st, entities, text, word_id+1, tags, title.string)
+                bag_of_words, count_bow = generate_bow(qid, bag_of_words, count_bow, st, entities, text, word_id+1)
                 word_id+=1
 
           contents = y.findAll('content')
           for content in contents:
             if content.string:
               text = clean_text(content.string, entities)
-              scontent = text.split()
               word_id = 0
               text = "@#@# " + text + " @#@#".encode('utf-8')
-              tags = m.tag_tokenized(text, 0, 0)
-              stop = len(scontent)
-              for sc in scontent:
-                bag_of_words, count_bow = generate_bow(qid, bag_of_words, count_bow, sc, entities, text, word_id+1, tags, content.string)
+              stitle = text.split()
+              for st in stitle:
+                bag_of_words, count_bow = generate_bow(qid, bag_of_words, count_bow, st, entities, text, word_id+1)
                 word_id+=1
 
           answers = y.findAll('answer')
           for answer in answers:
             if answer.string:
               text = clean_text(answer.string, entities)
-              sanswer = text.split()
               word_id = 0
               text = "@#@# " + text + " @#@#".encode('utf-8')
-              tags = m.tag_tokenized(text, 0, 0)
-              stop = len(sanswer)
-              try:
-                for sa in sanswer:
-                  bag_of_words, count_bow = generate_bow(qid, bag_of_words, count_bow, sa, entities, text, word_id+1, tags, answer.string)
-                  word_id+=1
-              except:
-                print sanswer
-                print
-                print text
-                print word_id
-                print len(sanswer)
-                print "Cago la wea"
-                sys.exit()
+              stitle = text.split()
+              for st in stitle:
+                bag_of_words, count_bow = generate_bow(qid, bag_of_words, count_bow, st, entities, text, word_id+1)
+                word_id+=1
 
         for bow in bag_of_words:
           for key in bag_of_words[bow]['features'].keys():
-            if key not in bag_of_keys and 'ES_TOKEN' not in key and 'qid' not in key and 'PALABRA' not in key:
+            if key not in bag_of_keys and 'ES_TOKEN' not in key and 'qid' not in key and 'PALABRA_ANTERIOR' not in key and 'ENTITY' not in key:
               bag_of_keys[key.encode('utf-8')] = key_id
               key_id+=1
 
