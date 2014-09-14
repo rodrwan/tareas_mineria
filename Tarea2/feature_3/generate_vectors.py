@@ -4,8 +4,8 @@ from os.path import isfile, join
 from load_config import load_config
 
 if __name__ == "__main__":
-  DATA_PATH = './json_data_f2/'
-  VECT_PATH = './vectors_2/'
+  DATA_PATH = './json_data/'
+  VECT_PATH = './vectors/'
   files = [ f for f in listdir(DATA_PATH) if isfile(join(DATA_PATH, f)) ]
   """
     Load base files with entities, ignored files and categories for this example.
@@ -17,28 +17,37 @@ if __name__ == "__main__":
   CATEGORIES = lc.get_categories()
 
   files = [f for f in files if f not in ignored_files and '-key' not in f]
+  keys = {}
+  json_key_file = open(DATA_PATH+'hash-key.json', 'r')
+  keys = json.loads(json_key_file.read())
+  json_key_file.close()
   for _file in files:
-    keys = {}
     sfile = _file.split('.')
-    json_key_file = open(DATA_PATH+sfile[0]+'-key.'+sfile[1], 'r')
-    keys = json.loads(json_key_file.read())
-    json_key_file.close()
     json_feature_file = open(DATA_PATH+sfile[0]+'.'+sfile[1], 'r')
     features = json.loads(json_feature_file.read())
     json_feature_file.close()
 
     end_file = open(VECT_PATH+sfile[0]+'-vec.txt', 'a')
     for feat_id in features:
-      feature_1 = features[feat_id]['features_1']
+      feature_1 = features[feat_id]['features']
       vector = str(feature_1['ES_TOKEN']) + ' '
       keys_feat = {}
       for feat_key in feature_1:
-        if 'ES_TOKEN' not in feat_key and 'qid' not in feat_key:
+        es_token = 'ES_TOKEN' not in feat_key
+        es_qid = 'qid' not in feat_key
+        es_entity = 'ENTITY' not in feat_key
+        es_palabra = 'PALABRA' not in feat_key
+        if es_token and es_qid and es_entity and es_palabra:
           keys_feat[keys[feat_key]] = feature_1[feat_key]
-        if 'PALABRA_' in feat_key:
-          word = feat_key.split('PALABRA_')[1]
-        if 'CAT_SINTACTICA_' in feat_key:
-          cat = feat_key.split('CAT_SINTACTICA_')[1]
+        if 'IZQUIERDA_CAT_' in feat_key:
+          cat = feat_key.split('IZQUIERDA_CAT_')[1]
+        elif 'DERECHA_CAT_' in feat_key:
+          cat = feat_key.split('DERECHA_CAT_')[1]
+        elif 'IZQUIERDA_' in feat_key:
+          word = feat_key.split('IZQUIERDA_')[1]
+        elif 'DERECHA_' in feat_key:
+          word = feat_key.split('DERECHA_')[1]
+
       # print keys_feat
       keylist = keys_feat.keys()
       keylist.sort()

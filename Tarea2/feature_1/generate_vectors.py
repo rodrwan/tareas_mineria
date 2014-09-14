@@ -33,7 +33,7 @@ if __name__ == "__main__":
       vector = str(feature_1['ES_TOKEN']) + ' '
       keys_feat = {}
       for feat_key in feature_1:
-        if 'ES_TOKEN' not in feat_key and 'qid' not in feat_key:
+        if 'ES_TOKEN' not in feat_key and 'qid' not in feat_key and 'ENTITY' not in feat_key:
           keys_feat[keys[feat_key]] = feature_1[feat_key]
         if 'PALABRA_' in feat_key and 'PALABRA_LARGO' not in feat_key:
           word = feat_key.split('PALABRA_')[1]
@@ -45,6 +45,6 @@ if __name__ == "__main__":
       for key in keylist:
           vector += str(key) + ':' + str(keys_feat[key]) + ' '
 
-      vector += '# ' + feature_1['qid'].encode('utf-8') + ' ' + word.encode('utf-8') + ' ' + cat.encode('utf-8') + ' ' + CATEGORIES[sfile[0]][0].replace(' ', '_').encode('utf-8') + '\n'
+      vector += '# ' + feature_1['qid'].encode('utf-8') + ' ' + word.encode('utf-8') + ' ' + cat.encode('utf-8') + ' ' + CATEGORIES[sfile[0]][0].replace(' ', '_').encode('utf-8') + " " + feature_1['ENTITY'].encode('utf-8') + '\n'
       end_file.write(vector)
     end_file.close()

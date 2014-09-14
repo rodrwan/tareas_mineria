@@ -16,18 +16,30 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 import codecs
 
-def clean_word(word,tokens):
+def clean_word(stext, entities):
   is_token = -1
-  for token in tokens:
-    if token in word:
-      word = word.split('/')[0]
+  enti = ''
+  for entity in entities:
+    if entity in stext:
+      enti = stext.split('/')[1]
+      stext = stext.split('/')[0]
       is_token = 1
       break
-  return word, is_token
+  return stext, is_token, enti
 
-def generate_bow(qid, bag_of_words, count_bow, word, tokens, text, word_id, tags):
-  word, token = clean_word(word, tokens)
-  tmp_bow_f1 = create_second_feature(qid, word, text, tokens, word_id, tags, token)
+
+def clean_text(text, entities):
+  for entity in entities:
+    text = text.replace(entity, '').replace(' -RRB- ', ' ').replace(' -LRB- ', ' ').replace('\/', '#').replace(' -RRB-', '').replace('-LRB- ', '')
+  return text
+
+def generate_bow(qid, bag_of_words, count_bow, word, tokens, text, word_id, tags, ori_text):
+  for stext in ori_text.split():
+    sword, is_token, _entity = clean_word(stext, entities)
+    if word == sword:
+      break
+  tmp_bow_f1 = create_second_feature(qid, word, text, tokens, word_id, tags, is_token)
+  tmp_bow_f1['ENTITY'] = _entity
   # print json.dumps(tmp_bow_f1, sort_keys=True, indent=4, separators=(',', ': '))
   index = 0
   is_there = False
@@ -58,7 +70,7 @@ if __name__ == "__main__":
 
   lc = load_config()
   lc.read_config()
-  tokens = lc.get_entities()
+  entities = lc.get_entities()
   ignored_files = lc.get_ignored()
   CATEGORIES = lc.get_categories()
 
@@ -70,10 +82,10 @@ if __name__ == "__main__":
     else:
       lidx = files.index(lfile)
     files = files[lidx:]
+    bag_of_keys = {}
+    key_id = 1
     for _file in files:
       bag_of_words = {}
-      bag_of_keys = {}
-      key_id = 1
       count_bow = 0
       cat_count = 1
       if (CATEGORIES[_file][1] == "Done"):
@@ -91,47 +103,51 @@ if __name__ == "__main__":
 
           titles = y.findAll('title')
           for title in titles:
-            stitle = title.string.split()
-            word_id = 0
-            text = "@#@# @#@# @#@# " + title.string + " @#@# @#@# @#@#".encode('utf-8')
-            for entity in tokens:
-              text = text.replace(entity, '')
-            tags = m.tag_tokenized(text, 0, 0)
-            for st in stitle:
-              bag_of_words, count_bow = generate_bow(qid, bag_of_words, count_bow, st, tokens, text, word_id+3, tags)
-              word_id+=1
+            if title.string:
+              text = clean_text(title.string, entities)
+              stitle = text.split()
+              word_id = 0
+              text = "@#@# @#@# @#@# " + text + " @#@# @#@# @#@#".encode('utf-8')
+              tags = m.tag_tokenized(text, 0, 0)
+              stop = len(stitle)
+              for st in stitle:
+                bag_of_words, count_bow = generate_bow(qid, bag_of_words, count_bow, st, entities, text, word_id+3, tags, title.string)
+                word_id+=1
 
           contents = y.findAll('content')
           for content in contents:
-            scontent = content.string.split()
-            word_id = 0
-            text = "@#@# @#@# @#@# " + content.string + " @#@# @#@# @#@#".encode('utf-8')
-            for entity in tokens:
-              text = text.replace(entity, '')
-            tags = m.tag_tokenized(text, 0, 0)
-            for sc in scontent:
-              bag_of_words, count_bow = generate_bow(qid, bag_of_words, count_bow, sc, tokens, text, word_id+3, tags)
-              word_id+=1
+            if content.string:
+              text = clean_text(content.string, entities)
+              scontent = text.split()
+              word_id = 0
+              text = "@#@# @#@# @#@# " + text + " @#@# @#@# @#@#".encode('utf-8')
+              tags = m.tag_tokenized(text, 0, 0)
+              stop = len(scontent)
+              for sc in scontent:
+                bag_of_words, count_bow = generate_bow(qid, bag_of_words, count_bow, sc, entities, text, word_id+3, tags, content.string)
+                word_id+=1
 
           answers = y.findAll('answer')
           for answer in answers:
-            sanswer = answer.string.split()
-            word_id = 0
-            text = "@#@# @#@# @#@# " + answer.string + " @#@# @#@# @#@#".encode('utf-8')
-            for entity in tokens:
-              text = text.replace(entity, '')
-            txt1 = ''
-            for txt in text.split():
-              txt1 += txt.replace('\/', '/') + ' '
-            text = txt1.strip()
-            try:
+            if answer.string:
+              text = clean_text(answer.string, entities)
+              sanswer = text.split()
+              word_id = 0
+              text = "@#@# @#@# @#@# " + text + " @#@# @#@# @#@#".encode('utf-8')
               tags = m.tag_tokenized(text, 0, 0)
-              for sa in sanswer:
-                bag_of_words, count_bow = generate_bow(qid, bag_of_words, count_bow, sa, tokens, text, word_id+3, tags)
-                word_id+=1
-            except:
-              print "Cago la wea"
-              pass
+              stop = len(sanswer)
+              try:
+                for sa in sanswer:
+                  bag_of_words, count_bow = generate_bow(qid, bag_of_words, count_bow, sa, entities, text, word_id+3, tags, answer.string)
+                  word_id+=1
+              except:
+                print sanswer
+                print
+                print text
+                print word_id
+                print len(sanswer)
+                print "Cago la wea"
+                sys.exit()
 
         for bow in bag_of_words:
           for key in bag_of_words[bow]['features'].keys():
@@ -139,11 +155,6 @@ if __name__ == "__main__":
               bag_of_keys[key.encode('utf-8')] = key_id
               key_id+=1
 
-        file_ = codecs.open('json_data/'+str(_file)+'-key.json', 'w', "utf-8")
-        # with open('json_data/'+str(_file)+'-key.json', 'w') as file_:
-        file_.write(json.dumps(bag_of_keys, sort_keys=True, indent=4, separators=(',', ': '), ensure_ascii=False).encode('utf8'))
-        file_.close()
-        print "Hash con llaves escrito: "+category
         file_ = codecs.open('json_data/'+str(_file)+'.json', 'w', "utf-8")
         # with open('json_data/'+str(_file)+'.json', 'w') as file_:
         file_.write(json.dumps(bag_of_words, sort_keys=True, indent=4, separators=(',', ': '), ensure_ascii=False).encode('utf8'))
@@ -151,6 +162,11 @@ if __name__ == "__main__":
         print "se escribio: "+category
         cat_count += 1
         print
+    file_ = codecs.open('json_data/hash-key.json', 'w', "utf-8")
+    # with open('json_data/'+str(_file)+'-key.json', 'w') as file_:
+    file_.write(json.dumps(bag_of_keys, sort_keys=True, indent=4, separators=(',', ': '), ensure_ascii=False).encode('utf8'))
+    file_.close()
+    print "Hash con llaves escrito: "+category
     print "All the jobs was done!"
     clear_log()
   except (KeyboardInterrupt, SystemExit):

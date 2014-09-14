@@ -79,6 +79,7 @@ def create_second_feature(qid, word, text, entities, index, tags, token):
   words.append(stext[index-3])
   words.append(stext[index-2])
   words.append(stext[index-1])
+  tmp_bow['qid'] = qid
   tmp_bow = create_side(words, 'left', tmp_bow, text, entities, tags, token)
   # right side
   words = []
