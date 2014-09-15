@@ -115,6 +115,6 @@ if __name__ == "__main__":
   pl.ylim([0.0, 1.0])
   pl.xlabel('False Positive Rate')
   pl.ylabel('True Positive Rate')
-  pl.title('ROC para primer grupo de features')
+  pl.title('ROC para segundo grupo de features')
   pl.legend(loc="lower right")
   pl.show()
